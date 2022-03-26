@@ -10,12 +10,12 @@
 // Es decir, solo referidas a la ESTRUCTURA del grafo.
 // Todos estos datos son fijos una vez cargado el grafo.
 
+typedef struct GrafoSt *Grafo;
 
 #include "EstructuraGrafo.h"
 
 // Grafo es un puntero a una estructura, la cual esta definida en el .h de arriba.
 
-typedef struct GrafoSt *Grafo;
 
 // Construcción/destrucción del grafo.
 
