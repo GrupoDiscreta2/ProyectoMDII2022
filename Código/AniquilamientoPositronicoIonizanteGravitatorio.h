@@ -1,6 +1,7 @@
 #ifndef __APIG_H
 #define __APIG_H
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -14,7 +15,7 @@
 
 // Grafo es un puntero a una estructura, la cual esta definida en el .h de arriba.
 
-typedef GrafoSt *Grafo;
+typedef struct GrafoSt *Grafo;
 
 
 // Construcción/destrucción del grafo.
