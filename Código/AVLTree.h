@@ -5,6 +5,8 @@
 TAD de arbol binario autobalanceado
 Explicación de wikipedia: https://es.wikipedia.org/wiki/%C3%81rbol_AVL
 */
+#include "EstructuraGrafo.h"
+#include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 
 typedef struct AVLTreeSt AVLTree;
 
@@ -15,6 +17,8 @@ AVLTree *nuevo_AVLTree(u32 nombre);
 AVLTree *destruir_AVLTree(AVLTree *T);
 
 AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre);
+
+void preOrder(AVLTree *T);
 
 
 #endif

@@ -17,7 +17,6 @@
 
 typedef struct GrafoSt *Grafo;
 
-
 // Construcción/destrucción del grafo.
 
 Grafo ConstruccionDelGrafo();

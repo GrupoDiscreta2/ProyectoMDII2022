@@ -3,8 +3,11 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdio.h>
+
 
 #include "EstructuraGrafo.h"
+#include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 
 #define max(a, b) ((a) > (b) ? (a) : (b))
 
@@ -89,8 +92,8 @@ AVLTree *nuevo_AVLTree(u32 nombre) {
 
 AVLTree *destruir_AVLTree(AVLTree *T) {
     if (T != NULL) {
-        destroy_AVLTree(T->izq);
-        destroy_AVLTree(T->der);
+        destruir_AVLTree(T->izq);
+        destruir_AVLTree(T->der);
         free(T); T = NULL;
     }
     return NULL;
@@ -117,6 +120,7 @@ AVLTree *rotarIzq_AVLTree(AVLTree *T) {
     T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
     T2->altura = max(altura_AVLTree(T2->izq), altura_AVLTree(T2->der)) + 1;
 
+    assertinvRep_AVLTree(T2);
     return T2;
 }
 
@@ -131,6 +135,7 @@ AVLTree *rotarDer_AVLTree(AVLTree *T) {
     T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
     T2->altura = max(altura_AVLTree(T2->izq), altura_AVLTree(T2->der)) + 1;
 
+    assertinvRep_AVLTree(T2);
     return T2;
 }
 
@@ -169,9 +174,18 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre) {
             }
         }
     }
+    assertinvRep_AVLTree(T);
     return T;
 }
 
 
-
+void preOrder(AVLTree *T)
+{
+    if(T != NULL)
+    {
+        printf("%d ", T->nombre);
+        preOrder(T->izq);
+        preOrder(T->der);
+    }
+}
 

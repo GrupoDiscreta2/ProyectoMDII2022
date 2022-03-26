@@ -2,16 +2,17 @@
 #define __ESTRUCTURAGRAFO_H
 
 #include <stdint.h>
+#include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 
 typedef uint32_t u32;
+typedef struct verticeSt *vertice;
+typedef struct GrafoSt *Grafo;
 
 struct verticeSt {
     u32 nombre;
     u32 grado;
     vertice *vecinos;
 };
-
-typedef struct verticeSt *vertice;
 
 struct GrafoSt {
     u32 n;
