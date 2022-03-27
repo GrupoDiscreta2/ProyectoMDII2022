@@ -13,7 +13,7 @@
 
 int main() {
     AVLTree *root = NULL;
- 
+
     bool x = false;
 
     /* Constructing tree given in the above figure */
@@ -38,10 +38,12 @@ int main() {
           /  \     \
          10  25    50
     */
- 
+
     printf("Preorder traversal of the constructed AVL"
            " tree is \n");
     preOrder(root);
- 
+
+    root = destruir_AVLTree(root);
+
     return 0;
 }
