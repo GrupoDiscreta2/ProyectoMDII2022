@@ -74,7 +74,7 @@ int assertCheckProf(AVLTree *T) { // Chequear profundidad
 
 
 void assertinvRep_AVLTree(AVLTree *T) {
-//    assert(checOrd(T));
+    assert(checOrd(T));
     assertCheckProf(T);
 }
 
@@ -111,7 +111,7 @@ int altura_AVLTree(AVLTree *T) {
 
 
 // PRE: T != NULL && T->der != NULL
-AVLTree *rotarIzq_AVLTree(AVLTree *T) {
+AVLTree *rotarDer_AVLTree(AVLTree *T) {
     assert(T != NULL && T->der != NULL);
 
     AVLTree *T2 = T->der;
@@ -126,7 +126,7 @@ AVLTree *rotarIzq_AVLTree(AVLTree *T) {
 }
 
 // PRE: T != NULL && T->izq != NULL
-AVLTree *rotarDer_AVLTree(AVLTree *T) {
+AVLTree *rotarIzq_AVLTree(AVLTree *T) {
     assert(T != NULL && T->izq != NULL);
 
     AVLTree *T2 = T->izq;
@@ -140,6 +140,28 @@ AVLTree *rotarDer_AVLTree(AVLTree *T) {
     return T2;
 }
 
+// PRE: T != NULL && T->der != NULL && T->der->izq != NULL
+AVLTree *rotarIzqDer_AVLTree(AVLTree *T) {
+    assert(T != NULL && T->der != NULL && T->der->izq != NULL);
+
+    T->der = rotarIzq_AVLTree(T->der);
+    T = rotarDer_AVLTree(T);
+
+    //assertinvRep_AVLTree(T);
+    return T;
+}
+
+// PRE: T != NULL && T->izq != NULL && T->izq->der != NULL
+AVLTree *rotarDerIzq_AVLTree(AVLTree *T) {
+    assert(T != NULL && T->izq != NULL && T->izq->der != NULL);
+
+    T->izq = rotarDer_AVLTree(T->izq);
+    T = rotarIzq_AVLTree(T);
+
+    //assertinvRep_AVLTree(T);
+    return T;
+}
+
 
 AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre) {
     if (T == NULL) {
@@ -147,36 +169,35 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre) {
     }
     else if (nombre < T->nombre) {
         T->izq = insertar_AVLTree(T->izq, nombre);
+        T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
+
         int FE = altura_AVLTree(T->izq) - altura_AVLTree(T->der); // Factor de escalado
+        int FE_izq = altura_AVLTree(T->izq->izq) - altura_AVLTree(T->izq->der);
         if (FE == 2) {
-            T = rotarDer_AVLTree(T);
-            FE = altura_AVLTree(T->izq) - altura_AVLTree(T->der);
-            if (FE == -2) {
-                AVLTree *T2 = T->izq;
-                T->izq = T->der->izq;
-                T->der->izq = T2;
-                
-                T->der->altura = max(altura_AVLTree(T->der->izq), altura_AVLTree(T->der->der)) + 1;
+            if (FE_izq == -1) {
+                T = rotarDerIzq_AVLTree(T);
+            }
+            else {
+                T = rotarIzq_AVLTree(T);
             }
         }
-        T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
     }
     else if (nombre > T->nombre) {
         T->der = insertar_AVLTree(T->der, nombre);
-        int FE = altura_AVLTree(T->izq) - altura_AVLTree(T->der); // Factor de escalado
-        if (FE == -2) {
-            T = rotarIzq_AVLTree(T);
-            FE = altura_AVLTree(T->izq) - altura_AVLTree(T->der);
-            if (FE == 2) {
-                AVLTree *T2 = T->der;
-                T->der = T->izq->der;
-                T->izq->der = T2;
+        T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
 
-                T->izq->altura = max(altura_AVLTree(T->izq->izq), altura_AVLTree(T->izq->der)) + 1;
+        int FE = altura_AVLTree(T->izq) - altura_AVLTree(T->der); // Factor de escalado
+        int FE_der = altura_AVLTree(T->der->izq) - altura_AVLTree(T->der->der);
+        if (FE == -2) {
+            if (FE_der == 1) {
+                T = rotarIzqDer_AVLTree(T);
+            }
+            else {
+                T = rotarDer_AVLTree(T);
             }
         }
-        T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
     }
+
     assertinvRep_AVLTree(T);
     return T;
 }

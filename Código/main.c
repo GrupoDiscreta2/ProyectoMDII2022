@@ -19,7 +19,7 @@ int main() {
     abb_dump(root);
     root = insertar_AVLTree(root, 30);
     abb_dump(root);
-    root = insertar_AVLTree(root, 40);
+    root = insertar_AVLTree(root, 22);
     abb_dump(root);
     root = insertar_AVLTree(root, 50);
     abb_dump(root);
