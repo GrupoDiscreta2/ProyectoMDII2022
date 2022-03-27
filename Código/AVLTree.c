@@ -11,12 +11,12 @@
 
 #define max(a, b) ((a) > (b) ? (a) : (b))
 
-struct AVLTreeSt {
+/* struct AVLTreeSt {
     u32 nombre;
     int altura;
     struct AVLTreeSt *izq;
     struct AVLTreeSt *der;
-};
+}; */
 
 
 bool checOrd_maxMin(AVLTree *T, u32 maximo, u32 minimo) {
@@ -86,7 +86,7 @@ AVLTree *nuevo_AVLTree(u32 nombre) {
         T->izq = NULL;
         T->der = NULL;
     };
-    assertinvRep_AVLTree(T);
+    //assertinvRep_AVLTree(T);
     return T;
 }
 
@@ -120,7 +120,7 @@ AVLTree *rotarIzq_AVLTree(AVLTree *T) {
     T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
     T2->altura = max(altura_AVLTree(T2->izq), altura_AVLTree(T2->der)) + 1;
 
-    assertinvRep_AVLTree(T2);
+    //assertinvRep_AVLTree(T2);
     return T2;
 }
 
@@ -135,7 +135,7 @@ AVLTree *rotarDer_AVLTree(AVLTree *T) {
     T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
     T2->altura = max(altura_AVLTree(T2->izq), altura_AVLTree(T2->der)) + 1;
 
-    assertinvRep_AVLTree(T2);
+    //assertinvRep_AVLTree(T2);
     return T2;
 }
 
@@ -174,7 +174,7 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre) {
             }
         }
     }
-    assertinvRep_AVLTree(T);
+    //assertinvRep_AVLTree(T);
     return T;
 }
 

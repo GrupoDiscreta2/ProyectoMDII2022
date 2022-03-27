@@ -8,6 +8,13 @@ Explicación de wikipedia: https://es.wikipedia.org/wiki/%C3%81rbol_AVL
 #include "EstructuraGrafo.h"
 #include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 
+struct AVLTreeSt {
+    u32 nombre;
+    int altura;
+    struct AVLTreeSt *izq;
+    struct AVLTreeSt *der;
+};
+
 typedef struct AVLTreeSt AVLTree;
 
 void assertinvRep_AVLTree(AVLTree *T);
