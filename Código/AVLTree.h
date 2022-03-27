@@ -5,25 +5,34 @@
 TAD de arbol binario autobalanceado
 Explicación de wikipedia: https://es.wikipedia.org/wiki/%C3%81rbol_AVL
 */
+
+#include <stdbool.h>
+
+#include "types.h"
+
 #include "EstructuraGrafo.h"
 #include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 
-struct AVLTreeSt {
-    u32 nombre;
-    int altura;
-    struct AVLTreeSt *izq;
-    struct AVLTreeSt *der;
-};
-
 typedef struct AVLTreeSt AVLTree;
 
-void assertinvRep_AVLTree(AVLTree *T);
-
+/*
+ * Crea un árbol AVL con un solo elemento
+ */
 AVLTree *nuevo_AVLTree(u32 nombre);
 
+/*
+ * Destrulle un árbol AVL liberando toda su memoria
+ */
 AVLTree *destruir_AVLTree(AVLTree *T);
 
-AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre);
+/*
+ * Agrega un elemento a un árbol AVL
+ * Pone *res en true si el elemento ya estaba de antes,
+ * si lo tubo que agregar lo pone en false
+ *
+ * PRE: res != NULL
+ */
+AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, bool *res);
 
 void preOrder(AVLTree *T);
 

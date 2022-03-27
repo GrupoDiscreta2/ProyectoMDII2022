@@ -11,9 +11,12 @@
 #define right der
 #define elem nombre
 
-static unsigned int max(unsigned int x, unsigned int y) {
-    return (x > y ? x: y);
-}
+struct AVLTreeSt {
+    u32 nombre;
+    int altura;
+    struct AVLTreeSt *izq;
+    struct AVLTreeSt *der;
+};
 
 // Needed for dumping algorithm
 static unsigned int abb_height(abb tree) {

@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "types.h"
+
 #include "EstructuraGrafo.h"
 #include "dump_fancy_plugin.h"
 #include "AVLTree.h"
@@ -12,18 +14,20 @@
 int main() {
     AVLTree *root = NULL;
  
+    bool x = false;
+
     /* Constructing tree given in the above figure */
-    root = insertar_AVLTree(root, 10);
+    root = insertar_AVLTree(root, 10, &x);
     abb_dump(root);
-    root = insertar_AVLTree(root, 20);
+    root = insertar_AVLTree(root, 20, &x);
     abb_dump(root);
-    root = insertar_AVLTree(root, 30);
+    root = insertar_AVLTree(root, 30, &x);
     abb_dump(root);
-    root = insertar_AVLTree(root, 22);
+    root = insertar_AVLTree(root, 22, &x);
     abb_dump(root);
-    root = insertar_AVLTree(root, 50);
+    root = insertar_AVLTree(root, 50, &x);
     abb_dump(root);
-    root = insertar_AVLTree(root, 25);
+    root = insertar_AVLTree(root, 25, &x);
     
     abb_dump(root);
 

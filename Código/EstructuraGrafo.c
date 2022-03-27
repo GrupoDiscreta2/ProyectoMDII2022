@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "types.h"
 
 #include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 #include "EstructuraGrafo.h"

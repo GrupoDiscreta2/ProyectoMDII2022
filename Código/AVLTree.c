@@ -5,21 +5,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "types.h"
 
 #include "EstructuraGrafo.h"
 #include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 
-#define max(a, b) ((a) > (b) ? (a) : (b))
-
-/* struct AVLTreeSt {
+struct AVLTreeSt {
     u32 nombre;
     int altura;
     struct AVLTreeSt *izq;
     struct AVLTreeSt *der;
-}; */
+};
 
 
-bool checOrd_maxMin(AVLTree *T, u32 maximo, u32 minimo) {
+static bool checOrd_maxMin(AVLTree *T, u32 maximo, u32 minimo) {
     return
         T == NULL
         || (T->nombre < maximo
@@ -30,7 +29,7 @@ bool checOrd_maxMin(AVLTree *T, u32 maximo, u32 minimo) {
     ;
 }
 
-bool checOrd_max(AVLTree *T, u32 maximo) {
+static bool checOrd_max(AVLTree *T, u32 maximo) {
     return
         T == NULL
         || (T->nombre < maximo
@@ -40,7 +39,7 @@ bool checOrd_max(AVLTree *T, u32 maximo) {
     ;
 }
 
-bool checOrd_min(AVLTree *T, u32 minimo) {
+static bool checOrd_min(AVLTree *T, u32 minimo) {
     return
         T == NULL
         || (T->nombre > minimo
@@ -50,14 +49,14 @@ bool checOrd_min(AVLTree *T, u32 minimo) {
     ;
 }
 
-bool checOrd(AVLTree *T) {
+static bool checOrd(AVLTree *T) {
     return
         T == NULL
         || (checOrd_max(T->izq, T->nombre) && checOrd_min(T->der, T->nombre))
     ;
 }
 
-int assertCheckProf(AVLTree *T) { // Chequear profundidad
+static int assertCheckProf(AVLTree *T) { // Chequear profundidad
     if (T == NULL) {
         return 0;
     }
@@ -73,7 +72,7 @@ int assertCheckProf(AVLTree *T) { // Chequear profundidad
 }
 
 
-void assertinvRep_AVLTree(AVLTree *T) {
+static void assertinvRep_AVLTree(AVLTree *T) {
     assert(checOrd(T));
     assertCheckProf(T);
 }
@@ -100,7 +99,7 @@ AVLTree *destruir_AVLTree(AVLTree *T) {
     return NULL;
 }
 
-int altura_AVLTree(AVLTree *T) {
+static int altura_AVLTree(AVLTree *T) {
     int res = 0;
     if (T != NULL) {
         res = T->altura;
@@ -111,7 +110,7 @@ int altura_AVLTree(AVLTree *T) {
 
 
 // PRE: T != NULL && T->der != NULL
-AVLTree *rotarDer_AVLTree(AVLTree *T) {
+static AVLTree *rotarDer_AVLTree(AVLTree *T) {
     assert(T != NULL && T->der != NULL);
 
     AVLTree *T2 = T->der;
@@ -126,7 +125,7 @@ AVLTree *rotarDer_AVLTree(AVLTree *T) {
 }
 
 // PRE: T != NULL && T->izq != NULL
-AVLTree *rotarIzq_AVLTree(AVLTree *T) {
+static AVLTree *rotarIzq_AVLTree(AVLTree *T) {
     assert(T != NULL && T->izq != NULL);
 
     AVLTree *T2 = T->izq;
@@ -141,7 +140,7 @@ AVLTree *rotarIzq_AVLTree(AVLTree *T) {
 }
 
 // PRE: T != NULL && T->der != NULL && T->der->izq != NULL
-AVLTree *rotarIzqDer_AVLTree(AVLTree *T) {
+static AVLTree *rotarIzqDer_AVLTree(AVLTree *T) {
     assert(T != NULL && T->der != NULL && T->der->izq != NULL);
 
     T->der = rotarIzq_AVLTree(T->der);
@@ -152,7 +151,7 @@ AVLTree *rotarIzqDer_AVLTree(AVLTree *T) {
 }
 
 // PRE: T != NULL && T->izq != NULL && T->izq->der != NULL
-AVLTree *rotarDerIzq_AVLTree(AVLTree *T) {
+static AVLTree *rotarDerIzq_AVLTree(AVLTree *T) {
     assert(T != NULL && T->izq != NULL && T->izq->der != NULL);
 
     T->izq = rotarDer_AVLTree(T->izq);
@@ -163,12 +162,15 @@ AVLTree *rotarDerIzq_AVLTree(AVLTree *T) {
 }
 
 
-AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre) {
+AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, bool *res) {
+    assert(res != NULL);
+
+    *res = false;
     if (T == NULL) {
         T = nuevo_AVLTree(nombre);
     }
     else if (nombre < T->nombre) {
-        T->izq = insertar_AVLTree(T->izq, nombre);
+        T->izq = insertar_AVLTree(T->izq, nombre, res);
         T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
 
         int FE = altura_AVLTree(T->izq) - altura_AVLTree(T->der); // Factor de escalado
@@ -183,7 +185,7 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre) {
         }
     }
     else if (nombre > T->nombre) {
-        T->der = insertar_AVLTree(T->der, nombre);
+        T->der = insertar_AVLTree(T->der, nombre, res);
         T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
 
         int FE = altura_AVLTree(T->izq) - altura_AVLTree(T->der); // Factor de escalado
@@ -196,6 +198,9 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre) {
                 T = rotarDer_AVLTree(T);
             }
         }
+    }
+    else {
+        *res = true;
     }
 
     assertinvRep_AVLTree(T);
