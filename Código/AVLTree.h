@@ -17,6 +17,7 @@ typedef struct AVLTreeSt AVLTree;
 
 /*
  * Crea un árbol AVL con un solo elemento
+ * En caso de error de alocado de memoria devuelve NULL
  */
 AVLTree *nuevo_AVLTree(u32 nombre);
 
@@ -27,6 +28,9 @@ AVLTree *destruir_AVLTree(AVLTree *T);
 
 /*
  * Agrega un elemento a un árbol AVL
+ * En caso de error de alocado de memoria libera toda la memoria del
+ * árbol y devuelve NULL
+ *
  * Pone *res en true si el elemento ya estaba de antes,
  * si lo tubo que agregar lo pone en false
  *

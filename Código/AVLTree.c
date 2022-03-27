@@ -171,6 +171,10 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, bool *res) {
     }
     else if (nombre < T->nombre) {
         T->izq = insertar_AVLTree(T->izq, nombre, res);
+        if (T->izq == NULL) { // Caso de que hubo un fallo al alocar memoria
+            T = destruir_AVLTree(T);
+            return T;
+        }
         T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
 
         int FE = altura_AVLTree(T->izq) - altura_AVLTree(T->der); // Factor de escalado
@@ -186,6 +190,10 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, bool *res) {
     }
     else if (nombre > T->nombre) {
         T->der = insertar_AVLTree(T->der, nombre, res);
+        if (T->der == NULL) { // Caso de que hubo un fallo al alocar memoria
+            T = destruir_AVLTree(T);
+            return T;
+        }
         T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
 
         int FE = altura_AVLTree(T->izq) - altura_AVLTree(T->der); // Factor de escalado
