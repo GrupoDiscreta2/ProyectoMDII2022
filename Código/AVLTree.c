@@ -64,8 +64,7 @@ static int assertCheckProf(AVLTree *T) { // Chequear profundidad
     int profDer = assertCheckProf(T->der);
     int prof = max(profIzq, profDer) + 1;
     int FE = profDer - profIzq;
-    
-//    printf("%d %d %d %d\n", prof, T->altura, profIzq, profDer);
+
     assert(prof == T->altura); assert(-2 < FE && FE < 2);
 
     return prof;
