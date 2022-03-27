@@ -66,14 +66,15 @@ int assertCheckProf(AVLTree *T) { // Chequear profundidad
     int prof = max(profIzq, profDer) + 1;
     int FE = profDer - profIzq;
     
-    assert(prof == T->altura && -2 < FE && FE < 2);
+//    printf("%d %d %d %d\n", prof, T->altura, profIzq, profDer);
+    assert(prof == T->altura); assert(-2 < FE && FE < 2);
 
-    return profIzq + 1;
+    return prof;
 }
 
 
 void assertinvRep_AVLTree(AVLTree *T) {
-    assert(checOrd(T));
+//    assert(checOrd(T));
     assertCheckProf(T);
 }
 
@@ -86,7 +87,7 @@ AVLTree *nuevo_AVLTree(u32 nombre) {
         T->izq = NULL;
         T->der = NULL;
     };
-    //assertinvRep_AVLTree(T);
+    assertinvRep_AVLTree(T);
     return T;
 }
 
@@ -155,9 +156,10 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre) {
                 T->izq = T->der->izq;
                 T->der->izq = T2;
                 
-                T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
+                T->der->altura = max(altura_AVLTree(T->der->izq), altura_AVLTree(T->der->der)) + 1;
             }
         }
+        T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
     }
     else if (nombre > T->nombre) {
         T->der = insertar_AVLTree(T->der, nombre);
@@ -170,11 +172,12 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre) {
                 T->der = T->izq->der;
                 T->izq->der = T2;
 
-                T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
+                T->izq->altura = max(altura_AVLTree(T->izq->izq), altura_AVLTree(T->izq->der)) + 1;
             }
         }
+        T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
     }
-    //assertinvRep_AVLTree(T);
+    assertinvRep_AVLTree(T);
     return T;
 }
 

@@ -1,4 +1,4 @@
-#include "AVLTree.h"
+
 
 #include <assert.h>
 #include <stdbool.h>
@@ -7,16 +7,22 @@
 
 #include "EstructuraGrafo.h"
 #include "dump_fancy_plugin.h"
+#include "AVLTree.h"
 
 int main() {
     AVLTree *root = NULL;
  
     /* Constructing tree given in the above figure */
     root = insertar_AVLTree(root, 10);
+    abb_dump(root);
     root = insertar_AVLTree(root, 20);
+    abb_dump(root);
     root = insertar_AVLTree(root, 30);
+    abb_dump(root);
     root = insertar_AVLTree(root, 40);
+    abb_dump(root);
     root = insertar_AVLTree(root, 50);
+    abb_dump(root);
     root = insertar_AVLTree(root, 25);
     
     abb_dump(root);
