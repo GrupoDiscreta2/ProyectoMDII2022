@@ -5,6 +5,7 @@
 
 #define assert(_) ;
 
+#include "EstructuraGrafo.h"
 #include "AVLTree.h"
 #define abb AVLTree*
 #define left izq
@@ -13,6 +14,7 @@
 
 struct AVLTreeSt {
     u32 nombre;
+    vertice v;
     int altura;
     struct AVLTreeSt *izq;
     struct AVLTreeSt *der;
@@ -88,7 +90,7 @@ static void dump_elem(abb tree) {
     assert(tree != NULL);
     int moved=0;  // Holds how many chars where printed
     cursor_white();
-    printf("%d%n", tree->elem, &moved);
+    printf("%u%n", tree->elem, &moved);
     // Restore cursor position
     cursor_left(moved);
 }

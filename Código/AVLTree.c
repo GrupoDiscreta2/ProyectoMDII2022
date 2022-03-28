@@ -12,6 +12,7 @@
 
 struct AVLTreeSt {
     u32 nombre;
+    vertice vertice;
     int altura;
     struct AVLTreeSt *izq;
     struct AVLTreeSt *der;
@@ -77,10 +78,11 @@ static void assertinvRep_AVLTree(AVLTree *T) {
 }
 
 
-AVLTree *nuevo_AVLTree(u32 nombre) {
+AVLTree *nuevo_AVLTree(vertice v) {
     AVLTree *T = malloc(sizeof(AVLTree));
     if (T != NULL) {
-        T->nombre = nombre;
+        T->nombre = v->nombre;
+        T->vertice = v;
         T->altura = 1;
         T->izq = NULL;
         T->der = NULL;
@@ -161,12 +163,12 @@ static AVLTree *rotarDerIzq_AVLTree(AVLTree *T) {
 }
 
 
-AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, bool *res) {
+AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, vertice *res) {
     assert(res != NULL);
 
-    *res = false;
     if (T == NULL) {
-        T = nuevo_AVLTree(nombre);
+        *res = initVertice(nombre);
+        T = nuevo_AVLTree(*res);
     }
     else if (nombre < T->nombre) {
         T->izq = insertar_AVLTree(T->izq, nombre, res);
@@ -207,19 +209,19 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, bool *res) {
         }
     }
     else {
-        *res = true;
+        *res = T->vertice;
     }
 
     assertinvRep_AVLTree(T);
     return T;
 }
 
-AVLTree *AVLTree_to_array(AVLTree *T, u32 *array, u32 *i) {
+AVLTree *AVLTree_to_array(AVLTree *T, vertice *array, u32 *i) {
     assert((T != NULL) <= (array != NULL));
 
     if (T != NULL) {
         AVLTree_to_array(T->izq, array, i);
-        array[*i] = T->nombre;
+        array[*i] = T->vertice;
         (*i)++;
         AVLTree_to_array(T->der, array, i);
 

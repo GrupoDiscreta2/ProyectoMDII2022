@@ -23,7 +23,9 @@ struct GrafoSt {
 };
 
 
-Grafo initGrafo();
+Grafo initGrafo(u32 n, u32 m);
+
+vertice initVertice(u32 nombre);
 
 Grafo addVertice(Grafo G, vertice v);
 
