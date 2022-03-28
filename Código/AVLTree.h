@@ -38,6 +38,16 @@ AVLTree *destruir_AVLTree(AVLTree *T);
  */
 AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, bool *res);
 
+/* 
+ * Pone en orden los elementos de un árbol en un array empezando desde la
+ * posición i y destruye el árbol
+ * Modifica i para indicar la posición del siguiente elemento libre
+ * El array debe tener suficiente espacio
+ * 
+ * PRE: (T != NULL) == (array != NULL)
+ */
+AVLTree *AVLTree_to_array(AVLTree *T, u32 *array, u32 *i);
+
 void preOrder(AVLTree *T);
 
 

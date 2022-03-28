@@ -12,24 +12,24 @@
 #include "AVLTree.h"
 
 int main() {
-    AVLTree *root = NULL;
+    AVLTree *T = NULL;
 
     bool x = false;
 
     /* Constructing tree given in the above figure */
-    root = insertar_AVLTree(root, 10, &x);
-    abb_dump(root);
-    root = insertar_AVLTree(root, 20, &x);
-    abb_dump(root);
-    root = insertar_AVLTree(root, 30, &x);
-    abb_dump(root);
-    root = insertar_AVLTree(root, 22, &x);
-    abb_dump(root);
-    root = insertar_AVLTree(root, 50, &x);
-    abb_dump(root);
-    root = insertar_AVLTree(root, 25, &x);
+    T = insertar_AVLTree(T, 10, &x);
+    abb_dump(T);
+    T = insertar_AVLTree(T, 20, &x);
+    abb_dump(T);
+    T = insertar_AVLTree(T, 30, &x);
+    abb_dump(T);
+    T = insertar_AVLTree(T, 22, &x);
+    abb_dump(T);
+    T = insertar_AVLTree(T, 50, &x);
+    abb_dump(T);
+    T = insertar_AVLTree(T, 25, &x);
     
-    abb_dump(root);
+    abb_dump(T);
 
     /* The constructed AVL Tree would be
               30
@@ -39,11 +39,20 @@ int main() {
          10  25    50
     */
 
-    printf("Preorder traversal of the constructed AVL"
-           " tree is \n");
-    preOrder(root);
+//    printf("Preorder traversal of the constructed AVL"
+//           " tree is \n");
+//    preOrder(T);
 
-    root = destruir_AVLTree(root);
+    u32 i = 0;
+
+    u32 *array = calloc(6, sizeof(u32));
+    T = AVLTree_to_array(T, array, &i);
+
+    for (u32 j = 0; j < 6; j++) {
+        printf("%u ", array[j]);
+    }
+
+    free(array);
 
     return 0;
 }

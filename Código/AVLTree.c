@@ -214,6 +214,20 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, bool *res) {
     return T;
 }
 
+AVLTree *AVLTree_to_array(AVLTree *T, u32 *array, u32 *i) {
+    assert((T != NULL) <= (array != NULL));
+
+    if (T != NULL) {
+        AVLTree_to_array(T->izq, array, i);
+        array[*i] = T->nombre;
+        (*i)++;
+        AVLTree_to_array(T->der, array, i);
+
+        free(T); T = NULL;
+    }
+
+    return T;
+}
 
 void preOrder(AVLTree *T)
 {
