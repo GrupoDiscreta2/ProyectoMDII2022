@@ -22,7 +22,7 @@ vertice addVecino(vertice v1, vertice v2) {
     return v1;
 }
 
-const Grafo addArista(Grafo g, AVLTree *T, u32 nameV1, u32 nameV2) {
+Grafo addArista(Grafo g, AVLTree *T, u32 nameV1, u32 nameV2) {
     vertice v1 = NULL;
     vertice v2 = NULL;
 
@@ -31,7 +31,7 @@ const Grafo addArista(Grafo g, AVLTree *T, u32 nameV1, u32 nameV2) {
     v1 = addVecino(v1, v2);
     v2 = addVecino(v2, v1);
     if(max(v1->grado, v2->grado) > g->DELTA) {
-        g->DELTA = v1->grado, v2->grado;
+        g->DELTA = max(v1->grado, v2->grado);
     }
     
     return g;
@@ -84,14 +84,15 @@ Grafo ConstruccionDelGrafo() {
         u32 v2;
         x = scanf(" e %u %u \n", &v1, &v2);
         if (x != 2 || n == 0 || m == 0) {
+            // Falta liberar memoria acá
             return NULL;
         }
         g = addArista(g, T, v1, v2);
     }
 
     u32 *i = 0;
-    AVLTree_to_array(T, g->vertices, i);
-    printf("%u", g->vertices[0]->nombre);
+    T = AVLTree_to_array(T, g->vertices, i);
+//    printf("%u", g->vertices[0]->nombre);
     return g;
 }
 

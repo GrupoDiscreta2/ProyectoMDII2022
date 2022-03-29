@@ -11,12 +11,14 @@
 #include "AVLTree.h"
 
 int main() {
-    Grafo T = NULL;
+    Grafo G = NULL;
 
-    T = ConstruccionDelGrafo();
+    G = ConstruccionDelGrafo();
 
-    printf("%u", NumeroDeVertices(T));
-    printf("%u", Nombre(1, T));
+    assert(G != NULL);
+
+    printf("%u", NumeroDeVertices(G));
+    printf("%u", Nombre(1, G));
 
     return 0;
 }
