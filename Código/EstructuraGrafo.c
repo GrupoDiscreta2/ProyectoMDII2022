@@ -2,9 +2,8 @@
 #include <stdio.h>
 
 #include "types.h"
-
-#include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 #include "EstructuraGrafo.h"
+#include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 #include "AVLTree.h"
 
 vertice initVertice(u32 nombre) {
@@ -16,10 +15,32 @@ vertice initVertice(u32 nombre) {
     return v;
 }
 
+vertice addVecino(vertice v1, vertice v2) {
+    v1->grado += 1;
+    v1->vecinos = realloc(v1->vecinos, sizeof(vertice)*v1->grado);
+    v1->vecinos[v1->grado-1] = v2;
+    return v1;
+}
+
+const Grafo addArista(Grafo g, AVLTree *T, u32 nameV1, u32 nameV2) {
+    vertice v1 = NULL;
+    vertice v2 = NULL;
+
+    T = insertar_AVLTree(T, nameV1, &v1);
+    T = insertar_AVLTree(T, nameV2, &v2);
+    v1 = addVecino(v1, v2);
+    v2 = addVecino(v2, v1);
+    if(max(v1->grado, v2->grado) > g->DELTA) {
+        g->DELTA = v1->grado, v2->grado;
+    }
+    
+    return g;
+}
+
 Grafo initGrafo(u32 n, u32 m) {
     Grafo G = malloc(sizeof(struct GrafoSt));
     if (G != NULL) {
-        G->n = 0;
+        G->n = n;
         G->m = m;
         G->DELTA = 0;
         G->vertices = calloc(n, sizeof(vertice));
@@ -65,9 +86,26 @@ Grafo ConstruccionDelGrafo() {
         if (x != 2 || n == 0 || m == 0) {
             return NULL;
         }
+        g = addArista(g, T, v1, v2);
     }
 
-    return NULL;
+    u32 *i = 0;
+    AVLTree_to_array(T, g->vertices, i);
+    printf("%u", g->vertices[0]->nombre);
+    return g;
 }
+
+u32 NumeroDeVertices(Grafo G) {
+    return G->n;
+}
+
+u32 Delta(Grafo G) {
+    return G->DELTA;
+}
+
+u32 Nombre(u32 i, Grafo G) {
+    return G->vertices[i]->nombre;
+}
+
 
 

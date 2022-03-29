@@ -15,5 +15,8 @@ int main() {
 
     T = ConstruccionDelGrafo();
 
+    printf("%u", NumeroDeVertices(T));
+    printf("%u", Nombre(1, T));
+
     return 0;
 }

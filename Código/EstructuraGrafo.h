@@ -7,6 +7,7 @@
 
 #include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 
+
 typedef struct verticeSt *vertice;
 
 struct verticeSt {
@@ -29,7 +30,7 @@ vertice initVertice(u32 nombre);
 
 Grafo addVertice(Grafo G, vertice v);
 
-Grafo addArista(Grafo G, vertice V, vertice W);
+vertice addVecino(vertice v1, vertice v2);
 
 Grafo sortVertices(Grafo G);
 

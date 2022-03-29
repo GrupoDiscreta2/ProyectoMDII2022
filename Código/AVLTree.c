@@ -6,9 +6,8 @@
 #include <stdio.h>
 
 #include "types.h"
-
-#include "EstructuraGrafo.h"
 #include "AniquilamientoPositronicoIonizanteGravitatorio.h"
+#include "EstructuraGrafo.h"
 
 struct AVLTreeSt {
     u32 nombre;
