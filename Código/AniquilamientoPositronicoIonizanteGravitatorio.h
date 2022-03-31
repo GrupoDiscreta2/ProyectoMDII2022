@@ -12,11 +12,11 @@
 // Es decir, solo referidas a la ESTRUCTURA del grafo.
 // Todos estos datos son fijos una vez cargado el grafo.
 
+// Grafo es un puntero a una estructura, la cual esta definida en el .h siguiente.
+
 typedef struct GrafoSt *Grafo;
 
 #include "EstructuraGrafo.h"
-
-// Grafo es un puntero a una estructura, la cual esta definida en el .h de arriba.
 
 
 // Construcción/destrucción del grafo.
@@ -25,13 +25,11 @@ Grafo ConstruccionDelGrafo();
 
 void DestruccionDelGrafo(Grafo G);
 
-
 // Funciones para extraer datos del grafo. u32 esta definida en el .h de arriba.
 
 u32 NumeroDeVertices(Grafo G);
 u32 NumeroDeLados(Grafo G);
 u32 Delta(Grafo G);  // Δ (delta mayuscula)
-
 
 // Funciones de infoextract de vertices.
 

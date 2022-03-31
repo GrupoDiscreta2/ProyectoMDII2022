@@ -10,8 +10,8 @@ vertice initVertice(u32 nombre) {
     vertice v = malloc(sizeof(struct verticeSt));
     v->nombre = nombre;
     v->grado = 0;
+    v->posicion = 0;
     v->vecinos = NULL;
-
     return v;
 }
 
@@ -110,6 +110,14 @@ u32 Delta(Grafo G) {
 
 u32 Nombre(u32 i, Grafo G) {
     return G->vertices[i]->nombre;
+}
+
+u32 Grado(u32 i, Grafo G) {
+    return G->vertices[i]->grado;
+}
+
+u32 IndiceONVecino(u32 j, u32 k, Grafo G) {
+    return G->vertices[k]->vecinos[j]->posicion;
 }
 
 void DestruccionDelGrafo(Grafo G){

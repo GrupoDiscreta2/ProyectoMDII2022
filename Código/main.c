@@ -23,6 +23,8 @@ int main() {
 
     printf("%u \n", Delta(G));
 
+    printf("%u \n", IndiceONVecino(1, 1, G));
+
     DestruccionDelGrafo(G);
 
     return 0;

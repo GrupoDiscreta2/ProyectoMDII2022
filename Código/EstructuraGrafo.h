@@ -13,6 +13,7 @@ typedef struct verticeSt *vertice;
 struct verticeSt {
     u32 nombre;
     u32 grado;
+    u32 posicion;
     vertice *vecinos;
 };
 

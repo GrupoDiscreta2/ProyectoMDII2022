@@ -221,6 +221,7 @@ AVLTree *AVLTree_to_array(AVLTree *T, vertice *array, u32 *i) {
     if (T != NULL) {
         AVLTree_to_array(T->izq, array, i);
         array[*i] = T->vertice;
+        T->vertice->posicion = *i;
         (*i)++;
         AVLTree_to_array(T->der, array, i);
 
