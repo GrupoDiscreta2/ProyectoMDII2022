@@ -17,8 +17,13 @@ int main() {
 
     assert(G != NULL);
 
-    printf("%u", NumeroDeVertices(G));
-    printf("%u", Nombre(1, G));
+    printf("%u \n", NumeroDeVertices(G));
+
+    printf("%u \n", Nombre(2, G));
+
+    printf("%u \n", Delta(G));
+
+    DestruccionDelGrafo(G);
 
     return 0;
 }
