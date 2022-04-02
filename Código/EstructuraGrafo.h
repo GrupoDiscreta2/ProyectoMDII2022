@@ -29,6 +29,8 @@ Grafo initGrafo(u32 n, u32 m);
 
 vertice initVertice(u32 nombre);
 
+vertice destruirVertice(vertice v);
+
 Grafo addVertice(Grafo G, vertice v);
 
 vertice addVecino(vertice v1, vertice v2);

@@ -92,8 +92,9 @@ AVLTree *nuevo_AVLTree(vertice v) {
 
 AVLTree *destruir_AVLTree(AVLTree *T) {
     if (T != NULL) {
-        destruir_AVLTree(T->izq);
-        destruir_AVLTree(T->der);
+        T->vertice = destruirVertice(T->vertice);
+        T->izq = destruir_AVLTree(T->izq);
+        T->der = destruir_AVLTree(T->der);
         free(T); T = NULL;
     }
     return NULL;

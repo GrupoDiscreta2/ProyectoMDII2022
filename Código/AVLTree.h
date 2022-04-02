@@ -22,7 +22,8 @@ typedef struct AVLTreeSt AVLTree;
 AVLTree *nuevo_AVLTree(vertice v);
 
 /*
- * Destrulle un árbol AVL liberando toda su memoria
+ * Destrulle un árbol AVL liberando toda su memoria y la memoria de los
+ * elementos
  */
 AVLTree *destruir_AVLTree(AVLTree *T);
 

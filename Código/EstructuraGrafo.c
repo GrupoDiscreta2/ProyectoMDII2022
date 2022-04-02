@@ -22,6 +22,12 @@ vertice addVecino(vertice v1, vertice v2) {
     return v1;
 }
 
+vertice destruirVertice(vertice v) {
+    free(v->vecinos); v->vecinos = NULL;
+    free(v); v = NULL;
+    return NULL;
+}
+
 Grafo addArista(Grafo g, AVLTree **T, u32 nameV1, u32 nameV2) {
     vertice v1 = NULL;
     vertice v2 = NULL;
@@ -44,17 +50,13 @@ Grafo initGrafo(u32 n, u32 m) {
         G->n = n;
         G->m = m;
         G->DELTA = 0;
-        G->vertices = calloc(n, sizeof(vertice));
-        if (G->vertices == NULL) {
-            free(G);
-            return NULL;
-        }
+        G->vertices = NULL;
     }
     return G;
 }
 
 Grafo ConstruccionDelGrafo() {
-    int c = '\0';
+    int c = '\0'; // getchar devuelve int, por eso esto es un int
     do {
         c = getchar();
         if (c == 'c') { // La linea es un comentario y hay que saltearla
@@ -76,7 +78,7 @@ Grafo ConstruccionDelGrafo() {
         return NULL;
     }
 
-    Grafo g = initGrafo(n, m);
+    Grafo G = initGrafo(n, m);
     AVLTree *T = NULL;
 
 
@@ -84,17 +86,24 @@ Grafo ConstruccionDelGrafo() {
         u32 v1 = 0;
         u32 v2 = 0;
         x = scanf("e %u %u \n", &v1, &v2);
-        if (x != 2) {
-            // Falta liberar memoria acá
+        if (x != 2) { // Los datos no están en el formato correcto
+            DestruccionDelGrafo(G); G = NULL;
+            T = destruir_AVLTree(T);
             return NULL;
         }
-        g = addArista(g, &T, v1, v2);
+        G = addArista(G, &T, v1, v2);
     }
 
     u32 i = 0;
-    AVLTree_to_array(T, g->vertices, &i);
+    G->vertices = calloc(G->n, sizeof(vertice));
+    if (G->vertices == NULL) {
+        DestruccionDelGrafo(G); G = NULL;
+        T = destruir_AVLTree(T);
+        return NULL;
+    }
+    T = AVLTree_to_array(T, G->vertices, &i);
 
-    return g;
+    return G;
 }
 
 u32 NumeroDeVertices(Grafo G) {
@@ -120,13 +129,13 @@ u32 IndiceONVecino(u32 j, u32 k, Grafo G) {
 void DestruccionDelGrafo(Grafo G){
     assert(G != NULL);
 
-    for(u32 i = 0; i < G->n; i++){
-        free(G->vertices[i]->vecinos);
-        free(G->vertices[i]);
-    };
-    free(G->vertices);
-    free(G);
-    G = NULL;
+    if(G->vertices != NULL) {
+        for(u32 i = 0; i < G->n; i++){
+            G->vertices[i] = destruirVertice(G->vertices[i]);
+        };
+    }
+    free(G->vertices); G->vertices = NULL;
+    free(G); G = NULL;
 }
 
 
