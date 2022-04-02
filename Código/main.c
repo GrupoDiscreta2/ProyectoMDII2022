@@ -17,13 +17,13 @@ int main() {
 
     assert(G != NULL);
 
-    printf("%u \n", NumeroDeVertices(G));
+    printf("n: %u \n", NumeroDeVertices(G));
 
-    printf("%u \n", Nombre(2, G));
+    printf("nombre0: %u \n", Nombre(0, G));
 
-    printf("%u \n", Delta(G));
+    printf("Δ: %u \n", Delta(G));
 
-    printf("%u \n", IndiceONVecino(1, 1, G));
+    printf("0[0]: %u \n", IndiceONVecino(0, 0, G));
 
     DestruccionDelGrafo(G);
 

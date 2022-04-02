@@ -81,21 +81,18 @@ Grafo ConstruccionDelGrafo() {
 
 
     for(u32 line = 0; line < m; line++) {
-        u32 v1;
-        u32 v2;
-        x = scanf(" e %u %u \n", &v1, &v2);
-        if (x != 2 || n == 0 || m == 0) {
+        u32 v1 = 0;
+        u32 v2 = 0;
+        x = scanf("e %u %u \n", &v1, &v2);
+        if (x != 2) {
             // Falta liberar memoria acá
             return NULL;
         }
         g = addArista(g, &T, v1, v2);
     }
 
-    u32 *i = malloc(sizeof(int));
-    *i = 0;
-    AVLTree_to_array(T, g->vertices, i);
-
-    free(i);
+    u32 i = 0;
+    AVLTree_to_array(T, g->vertices, &i);
 
     return g;
 }
