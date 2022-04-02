@@ -216,15 +216,20 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, vertice *res) {
     return T;
 }
 
-AVLTree *AVLTree_to_array(AVLTree *T, vertice *array, u32 *i) {
-    assert((T != NULL) <= (array != NULL));
+AVLTree *AVLTree_to_array(AVLTree *T, vertice *array, u32 *i, u32 n) {
+    assert(((T != NULL) <= (array != NULL)) && i != NULL);
 
     if (T != NULL) {
-        AVLTree_to_array(T->izq, array, i);
-        array[*i] = T->vertice;
-        T->vertice->posicion = *i;
+        AVLTree_to_array(T->izq, array, i, n);
+        if (*i < n) {
+            array[*i] = T->vertice;
+            T->vertice->posicion = *i;
+        }
+        else {
+            T->vertice = destruirVertice(T->vertice);
+        }
         (*i)++;
-        AVLTree_to_array(T->der, array, i);
+        AVLTree_to_array(T->der, array, i, n);
 
         free(T); T = NULL;
     }

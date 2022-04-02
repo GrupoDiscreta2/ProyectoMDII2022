@@ -29,6 +29,10 @@ Grafo initGrafo(u32 n, u32 m);
 
 vertice initVertice(u32 nombre);
 
+/* Destrulle un vertice liberando toda su memoria
+ *
+ * PRE: v != NULL
+ */
 vertice destruirVertice(vertice v);
 
 Grafo addVertice(Grafo G, vertice v);

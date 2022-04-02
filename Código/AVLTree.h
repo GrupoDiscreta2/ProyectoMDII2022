@@ -40,13 +40,15 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, vertice *res);
 
 /* 
  * Pone en orden los elementos (vértices) de un árbol en un array empezando desde la
- * posición i y destruye el árbol
+ * posición i hasta a lo sumo la posición n - 1 y destruye el árbol
  * Modifica i para indicar la posición del siguiente elemento libre
- * El array debe tener suficiente espacio
+ * Si no entran hasta en menos de n, inserta hasta n pero igualmente aumenta i
+ * como si los hubieran insertado a todos
+ * Los elementos que no pueden entrar se destrullen
  * 
- * PRE: (T != NULL) == (array != NULL)
+ * PRE: ((T != NULL) <= (array != NULL)) && i != NULL
  */
-AVLTree *AVLTree_to_array(AVLTree *T, vertice *array, u32 *i);
+AVLTree *AVLTree_to_array(AVLTree *T, vertice *array, u32 *i, u32 n);
 
 void preOrder(AVLTree *T);
 

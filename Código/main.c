@@ -15,7 +15,10 @@ int main() {
 
     G = ConstruccionDelGrafo();
 
-    assert(G != NULL);
+    if (G == NULL) {
+        printf("G == NULL\n");
+        return 0;
+    }
 
     printf("n: %u \n", NumeroDeVertices(G));
 

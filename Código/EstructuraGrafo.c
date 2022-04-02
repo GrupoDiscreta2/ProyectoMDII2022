@@ -23,7 +23,10 @@ vertice addVecino(vertice v1, vertice v2) {
 }
 
 vertice destruirVertice(vertice v) {
-    free(v->vecinos); v->vecinos = NULL;
+    assert (v != NULL);
+    if (v->vecinos != NULL) {
+        free(v->vecinos); v->vecinos = NULL;
+    }
     free(v); v = NULL;
     return NULL;
 }
@@ -95,13 +98,19 @@ Grafo ConstruccionDelGrafo() {
     }
 
     u32 i = 0;
-    G->vertices = calloc(G->n, sizeof(vertice));
+    G->vertices = calloc(n, sizeof(vertice));
     if (G->vertices == NULL) {
         DestruccionDelGrafo(G); G = NULL;
         T = destruir_AVLTree(T);
         return NULL;
     }
-    T = AVLTree_to_array(T, G->vertices, &i);
+    T = AVLTree_to_array(T, G->vertices, &i, n);
+    if (i != n) {
+        // La cantidad de vertices no coincide con n
+        DestruccionDelGrafo(G); G = NULL;
+        T = destruir_AVLTree(T);
+        return NULL;
+    }
 
     return G;
 }
@@ -131,7 +140,11 @@ void DestruccionDelGrafo(Grafo G){
 
     if(G->vertices != NULL) {
         for(u32 i = 0; i < G->n; i++){
-            G->vertices[i] = destruirVertice(G->vertices[i]);
+            if (G->vertices[i] != NULL) {
+                // Algunos podrían ser NULL si el grafo no se construyó bien
+                // (Si no había n vertices)
+                G->vertices[i] = destruirVertice(G->vertices[i]);
+            }
         };
     }
     free(G->vertices); G->vertices = NULL;
