@@ -32,20 +32,20 @@ vertice destruirVertice(vertice v) {
     return NULL;
 }
 
-Grafo addArista(Grafo g, AVLTree **T, u32 nameV1, u32 nameV2) {
+Grafo addArista(Grafo G, AVLTree **T, u32 nameV1, u32 nameV2) {
     vertice v1 = NULL;
     vertice v2 = NULL;
 
-    *T = insertar_AVLTree(*T, nameV1, &v1, g);
-    *T = insertar_AVLTree(*T, nameV2, &v2, g);
+    *T = insertar_AVLTree(*T, nameV1, &v1, G);
+    *T = insertar_AVLTree(*T, nameV2, &v2, G);
 
     v1 = addVecino(v1, v2);
     v2 = addVecino(v2, v1);
-    if(max(v1->grado, v2->grado) > g->DELTA) {
-        g->DELTA = max(v1->grado, v2->grado);
+    if(max(v1->grado, v2->grado) > G->DELTA) {
+        G->DELTA = max(v1->grado, v2->grado);
     };
 
-    return g;
+    return G;
 }
 
 Grafo initGrafo(u32 n, u32 m) {
