@@ -3,10 +3,9 @@
 
 #include <stdint.h>
 
+#include "arregloDinamico.h"
 #include "types.h"
-
 #include "AniquilamientoPositronicoIonizanteGravitatorio.h"
-
 
 typedef struct verticeSt *vertice;
 
@@ -14,7 +13,7 @@ struct verticeSt {
     u32 nombre;
     u32 grado;
     u32 posicion;
-    vertice *vecinos;
+    arreglo vecinos;
 };
 
 struct GrafoSt {
@@ -27,7 +26,7 @@ struct GrafoSt {
 
 Grafo initGrafo(u32 n, u32 m);
 
-vertice initVertice(u32 nombre);
+vertice initVertice(u32 nombre, Grafo G);
 
 /* Destrulle un vertice liberando toda su memoria
  *
@@ -35,10 +34,6 @@ vertice initVertice(u32 nombre);
  */
 vertice destruirVertice(vertice v);
 
-Grafo addVertice(Grafo G, vertice v);
-
 vertice addVecino(vertice v1, vertice v2);
-
-Grafo sortVertices(Grafo G);
 
 #endif

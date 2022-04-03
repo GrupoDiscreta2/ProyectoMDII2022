@@ -36,7 +36,7 @@ AVLTree *destruir_AVLTree(AVLTree *T);
  *
  * PRE: res != NULL
  */
-AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, vertice *res);
+AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, vertice *res, Grafo G);
 
 /*
  * Obtiene el balance de un árbol AVL

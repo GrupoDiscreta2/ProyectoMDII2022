@@ -174,22 +174,22 @@ int obtenerBalance(AVLTree *T){
 }
 
 
-AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, vertice *res) {
+AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, vertice *res, Grafo G) {
     assert(res != NULL);
 
     if (T == NULL) {
-        *res = initVertice(nombre);
+        *res = initVertice(nombre, G);
         T = nuevo_AVLTree(*res);
     }
     else if (nombre < T->nombre) {
-        T->izq = insertar_AVLTree(T->izq, nombre, res);
+        T->izq = insertar_AVLTree(T->izq, nombre, res, G);
         if (T->izq == NULL) { // Caso de que hubo un fallo al alocar memoria
             T = destruir_AVLTree(T);
             return T;
         }
     }
     else if (nombre > T->nombre) {
-        T->der = insertar_AVLTree(T->der, nombre, res);
+        T->der = insertar_AVLTree(T->der, nombre, res, G);
         if (T->der == NULL) { // Caso de que hubo un fallo al alocar memoria
             T = destruir_AVLTree(T);
             return T;

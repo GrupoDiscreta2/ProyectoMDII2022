@@ -7,27 +7,24 @@
 #include "AVLTree.h"
 #include <string.h>
 
-vertice initVertice(u32 nombre) {
+vertice initVertice(u32 nombre, Grafo G) {
     vertice v = malloc(sizeof(struct verticeSt));
     v->nombre = nombre;
     v->grado = 0;
     v->posicion = 0;
-    v->vecinos = NULL;
+    v->vecinos = nuevo_arreglo_dinamico(2*(G->m)/ G->n);
     return v;
 }
 
 vertice addVecino(vertice v1, vertice v2) {
     v1->grado += 1;
-    v1->vecinos = realloc(v1->vecinos, sizeof(vertice)*v1->grado);
-    v1->vecinos[v1->grado-1] = v2;
+    v1->vecinos = agregar_elemento(v1->vecinos,v2);
     return v1;
 }
 
 vertice destruirVertice(vertice v) {
     assert (v != NULL);
-    if (v->vecinos != NULL) {
-        free(v->vecinos); v->vecinos = NULL;
-    }
+    destuir_arreglo_dinamico(v->vecinos);
     free(v); v = NULL;
     return NULL;
 }
@@ -36,8 +33,8 @@ Grafo addArista(Grafo g, AVLTree **T, u32 nameV1, u32 nameV2) {
     vertice v1 = NULL;
     vertice v2 = NULL;
 
-    *T = insertar_AVLTree(*T, nameV1, &v1);
-    *T = insertar_AVLTree(*T, nameV2, &v2);
+    *T = insertar_AVLTree(*T, nameV1, &v1, g);
+    *T = insertar_AVLTree(*T, nameV2, &v2, g);
 
     v1 = addVecino(v1, v2);
     v2 = addVecino(v2, v1);
@@ -140,7 +137,14 @@ u32 Grado(u32 i, Grafo G) {
 }
 
 u32 IndiceONVecino(u32 j, u32 k, Grafo G) {
-    return G->vertices[k]->vecinos[j]->posicion;
+    u32 result;
+    if (k > NumeroDeVertices(G) || j > Grado(k, G)){
+        result = MAX_U32;
+    } else {
+        vertice elem = indexar_arreglo(G->vertices[k]->vecinos, j);
+        result = elem->posicion;
+    }
+    return result;
 }
 
 void DestruccionDelGrafo(Grafo G){
