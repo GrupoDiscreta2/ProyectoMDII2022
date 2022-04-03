@@ -78,13 +78,13 @@ static void assertinvRep_AVLTree(AVLTree *T) {
 
 
 AVLTree *nuevo_AVLTree(vertice v) {
-    AVLTree *T = malloc(sizeof(AVLTree));
+    AVLTree *T = (struct AVLTreeSt *) malloc(sizeof(struct AVLTreeSt));
     if (T != NULL) {
         T->nombre = v->nombre;
         T->vertice = v;
-        T->altura = 1;
         T->izq = NULL;
         T->der = NULL;
+        T->altura = 1;
     };
     assertinvRep_AVLTree(T);
     return T;
@@ -114,30 +114,34 @@ static int altura_AVLTree(AVLTree *T) {
 static AVLTree *rotarDer_AVLTree(AVLTree *T) {
     assert(T != NULL && T->der != NULL);
 
-    AVLTree *T2 = T->der;
-    T->der = T2->izq;
-    T2->izq = T;
+    AVLTree *x = T->izq;
+    AVLTree *T2 = x->der;
+    
+    x->der = T;
+    T->izq= T2;
 
     T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
-    T2->altura = max(altura_AVLTree(T2->izq), altura_AVLTree(T2->der)) + 1;
+    x->altura = max(altura_AVLTree(x->izq), altura_AVLTree(x->der)) + 1;
 
     //assertinvRep_AVLTree(T2);
-    return T2;
+    return x;
 }
 
 // PRE: T != NULL && T->izq != NULL
 static AVLTree *rotarIzq_AVLTree(AVLTree *T) {
     assert(T != NULL && T->izq != NULL);
 
-    AVLTree *T2 = T->izq;
-    T->izq = T2->der;
-    T2->der = T;
+    AVLTree *y = T->der;
+    AVLTree *T2 = y->izq;
+
+    y->izq = T;
+    T->der = T2;
 
     T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
-    T2->altura = max(altura_AVLTree(T2->izq), altura_AVLTree(T2->der)) + 1;
+    y->altura = max(altura_AVLTree(y->izq), altura_AVLTree(y->der)) + 1;
 
     //assertinvRep_AVLTree(T2);
-    return T2;
+    return y;
 }
 
 // PRE: T != NULL && T->der != NULL && T->der->izq != NULL
@@ -162,6 +166,13 @@ static AVLTree *rotarDerIzq_AVLTree(AVLTree *T) {
     return T;
 }
 
+int obtenerBalance(AVLTree *T){
+    if (T == NULL){
+        return 0;
+    }
+    return altura_AVLTree(T->izq) - altura_AVLTree(T->der);
+}
+
 
 AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, vertice *res) {
     assert(res != NULL);
@@ -176,18 +187,6 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, vertice *res) {
             T = destruir_AVLTree(T);
             return T;
         }
-        T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
-
-        int FE = altura_AVLTree(T->izq) - altura_AVLTree(T->der); // Factor de escalado
-        int FE_izq = altura_AVLTree(T->izq->izq) - altura_AVLTree(T->izq->der);
-        if (FE == 2) {
-            if (FE_izq == -1) {
-                T = rotarDerIzq_AVLTree(T);
-            }
-            else {
-                T = rotarIzq_AVLTree(T);
-            }
-        }
     }
     else if (nombre > T->nombre) {
         T->der = insertar_AVLTree(T->der, nombre, res);
@@ -195,24 +194,27 @@ AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, vertice *res) {
             T = destruir_AVLTree(T);
             return T;
         }
-        T->altura = max(altura_AVLTree(T->izq), altura_AVLTree(T->der)) + 1;
-
-        int FE = altura_AVLTree(T->izq) - altura_AVLTree(T->der); // Factor de escalado
-        int FE_der = altura_AVLTree(T->der->izq) - altura_AVLTree(T->der->der);
-        if (FE == -2) {
-            if (FE_der == 1) {
-                T = rotarIzqDer_AVLTree(T);
-            }
-            else {
-                T = rotarDer_AVLTree(T);
-            }
-        }
-    }
+    } 
     else {
         *res = T->vertice;
     }
 
-    assertinvRep_AVLTree(T);
+    T->altura = 1 + max(altura_AVLTree(T->izq), altura_AVLTree(T->der));
+
+    int balance = obtenerBalance(T);
+    if (balance > 1 && nombre < T->izq->nombre)
+        return rotarDer_AVLTree(T);
+    if (balance < -1 && nombre > T->der->nombre)
+        return rotarIzq_AVLTree(T);
+    if (balance > 1 && nombre > T->izq->nombre) {
+        T->izq = rotarIzq_AVLTree(T->izq);
+        return rotarDer_AVLTree(T);
+    }
+    if (balance < -1 && nombre < T->der->nombre){
+        T->der = rotarDer_AVLTree(T->der);
+        return rotarIzq_AVLTree(T);
+    }
+
     return T;
 }
 
@@ -246,4 +248,3 @@ void preOrder(AVLTree *T)
         preOrder(T->der);
     }
 }
-

@@ -38,6 +38,12 @@ AVLTree *destruir_AVLTree(AVLTree *T);
  */
 AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, vertice *res);
 
+/*
+ * Obtiene el balance de un árbol AVL
+ * En caso de T = NULL devuelve 0.
+*/
+int obtenerBalance(AVLTree *T);
+
 /* 
  * Pone en orden los elementos (vértices) de un árbol en un array empezando desde la
  * posición i hasta a lo sumo la posición n - 1 y destruye el árbol
