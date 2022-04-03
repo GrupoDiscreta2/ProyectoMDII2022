@@ -61,11 +61,11 @@ Grafo initGrafo(u32 n, u32 m) {
 
 Grafo ConstruccionDelGrafo() {
     int c = '\0'; // getchar devuelve int, por eso esto es un int
-    char b;
     do {
         c = getchar();
         if (c == 'c') { // La linea es un comentario y hay que saltearla
-            b = scanf("%*[^\n]");
+            int b = scanf("%*[^\n]");
+            assert(b == 0);
             int x = getchar();
             assert(x == '\n');
         }
