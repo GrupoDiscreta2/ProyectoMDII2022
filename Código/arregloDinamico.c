@@ -6,6 +6,7 @@
 typedef struct arregloSt *arreglo;
 
 arreglo nuevo_arreglo_dinamico (u32 cant_elem){
+    assert(cant_elem == 0);
     arreglo a = malloc(sizeof(struct arregloSt));
     a->capacidad = cant_elem;
     a->elementos = calloc(cant_elem, sizeof(void *));
@@ -15,8 +16,8 @@ arreglo nuevo_arreglo_dinamico (u32 cant_elem){
 
 arreglo agregar_elemento(arreglo a, void *nuevo){
     if (a->tamanio_actual >= a->capacidad) {
-        a->elementos = realloc(a->elementos, sizeof(void *) * (a->tamanio_actual + 1));
-        a->capacidad += 1;
+        a->elementos = realloc(a->elementos, sizeof(void *) * (a->tamanio_actual * 2));
+        a->capacidad = a->capacidad * 2;
         a->elementos[a->tamanio_actual] = nuevo;
         a->tamanio_actual += 1;
     } else {
