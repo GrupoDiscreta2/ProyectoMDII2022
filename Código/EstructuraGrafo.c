@@ -19,7 +19,7 @@ vertice initVertice(u32 nombre, Grafo G) {
 }
 
 vertice addVecino(vertice v1, vertice v2) {
-    assert(v1 != NULL)
+    assert(v1 != NULL);
     v1->grado += 1;
     v1->vecinos = agregar_elemento(v1->vecinos,v2);
     return v1;
