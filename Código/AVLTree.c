@@ -110,9 +110,9 @@ static int altura_AVLTree(AVLTree *T) {
 }
 
 
-// PRE: T != NULL && T->der != NULL
+// PRE: T != NULL && T->izq != NULL
 static AVLTree *rotarDer_AVLTree(AVLTree *T) {
-    assert(T != NULL && T->der != NULL);
+    assert(T != NULL && T->izq != NULL);
 
     AVLTree *x = T->izq;
     AVLTree *T2 = x->der;
@@ -127,9 +127,9 @@ static AVLTree *rotarDer_AVLTree(AVLTree *T) {
     return x;
 }
 
-// PRE: T != NULL && T->izq != NULL
+// PRE: T != NULL && T->der != NULL
 static AVLTree *rotarIzq_AVLTree(AVLTree *T) {
-    assert(T != NULL && T->izq != NULL);
+    assert(T != NULL && T->der != NULL);
 
     AVLTree *y = T->der;
     AVLTree *T2 = y->izq;
