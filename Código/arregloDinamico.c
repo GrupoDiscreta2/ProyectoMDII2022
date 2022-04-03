@@ -1,11 +1,11 @@
+#include "arregloDinamico.h"
+
 #include <assert.h>
 #include <stdlib.h>
 
-#include "arregloDinamico.h"
-
 typedef struct arregloSt *arreglo;
 
-arreglo nuevo_arreglo_dinamico (u32 cant_elem){
+arreglo nuevo_arreglo_dinamico(u32 cant_elem) {
     assert(cant_elem != 0);
     arreglo a = malloc(sizeof(struct arregloSt));
     if (a != NULL) {
@@ -17,15 +17,16 @@ arreglo nuevo_arreglo_dinamico (u32 cant_elem){
     return a;
 }
 
-arreglo agregar_elemento(arreglo a, void *nuevo){
+arreglo agregar_elemento(arreglo a, void *nuevo) {
     assert(a != NULL && nuevo != NULL);
     if (a->tamanio_actual >= a->capacidad) {
-        a->elementos = realloc(a->elementos, sizeof(void *) * (a->tamanio_actual * 2));
+        a->elementos =
+            realloc(a->elementos, sizeof(void *) * (a->tamanio_actual * 2));
         if (a->elementos != NULL) {
             a->capacidad = a->capacidad * 2;
             a->elementos[a->tamanio_actual] = nuevo;
-            a->tamanio_actual += 1;        
-        }    
+            a->tamanio_actual += 1;
+        }
     } else {
         a->elementos[a->tamanio_actual] = nuevo;
         a->tamanio_actual += 1;
@@ -39,11 +40,13 @@ void *indexar_arreglo(arreglo a, u32 i) {
     return a->elementos[i];
 }
 
-arreglo destuir_arreglo_dinamico(arreglo a){
+arreglo destuir_arreglo_dinamico(arreglo a) {
     assert(a != NULL);
     if (a->elementos != NULL) {
-        free(a->elementos); a = NULL;
+        free(a->elementos);
+        a = NULL;
     }
-    free(a); a = NULL;
+    free(a);
+    a = NULL;
     return NULL;
 }

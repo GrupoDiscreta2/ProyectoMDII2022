@@ -3,9 +3,9 @@
 
 #include <stdint.h>
 
+#include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 #include "arregloDinamico.h"
 #include "types.h"
-#include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 
 typedef struct verticeSt *vertice;
 
@@ -22,7 +22,6 @@ struct GrafoSt {
     u32 DELTA;
     vertice *vertices;
 };
-
 
 Grafo initGrafo(u32 n, u32 m);
 

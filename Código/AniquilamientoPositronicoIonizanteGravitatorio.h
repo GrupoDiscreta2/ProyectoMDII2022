@@ -18,7 +18,6 @@ typedef struct GrafoSt *Grafo;
 
 #include "EstructuraGrafo.h"
 
-
 // Construcción/destrucción del grafo.
 
 Grafo ConstruccionDelGrafo();
@@ -29,7 +28,7 @@ void DestruccionDelGrafo(Grafo G);
 
 u32 NumeroDeVertices(Grafo G);
 u32 NumeroDeLados(Grafo G);
-u32 Delta(Grafo G);  // Δ (delta mayuscula)
+u32 Delta(Grafo G); // Δ (delta mayuscula)
 
 // Funciones de infoextract de vertices.
 
@@ -41,7 +40,5 @@ u32 Nombre(u32 i, Grafo G);
 u32 Grado(u32 i, Grafo G);
 // Vecinos info
 u32 IndiceONVecino(u32 j, u32 k, Grafo G);
-
-
 
 #endif

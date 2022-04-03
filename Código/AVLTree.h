@@ -8,10 +8,9 @@ Explicación de wikipedia: https://es.wikipedia.org/wiki/%C3%81rbol_AVL
 
 #include <stdbool.h>
 
-#include "types.h"
-
-#include "EstructuraGrafo.h"
 #include "AniquilamientoPositronicoIonizanteGravitatorio.h"
+#include "EstructuraGrafo.h"
+#include "types.h"
 
 typedef struct AVLTreeSt AVLTree;
 
@@ -57,6 +56,5 @@ int obtenerBalance(AVLTree *T);
 AVLTree *AVLTree_to_array(AVLTree *T, vertice *array, u32 *i, u32 n);
 
 void preOrder(AVLTree *T);
-
 
 #endif

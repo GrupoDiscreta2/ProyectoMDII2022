@@ -1,14 +1,11 @@
 #include <assert.h>
 #include <stdbool.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-#include "types.h"
-
-
-#include "EstructuraGrafo.h"
-#include "dump_fancy_plugin.h"
 #include "AVLTree.h"
+#include "EstructuraGrafo.h"
+#include "types.h"
 
 int main() {
     Grafo G = NULL;
