@@ -5,6 +5,7 @@
 #include "EstructuraGrafo.h"
 #include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 #include "AVLTree.h"
+#include <string.h>
 
 vertice initVertice(u32 nombre) {
     vertice v = malloc(sizeof(struct verticeSt));
@@ -60,10 +61,11 @@ Grafo initGrafo(u32 n, u32 m) {
 
 Grafo ConstruccionDelGrafo() {
     int c = '\0'; // getchar devuelve int, por eso esto es un int
+    char b;
     do {
         c = getchar();
         if (c == 'c') { // La linea es un comentario y hay que saltearla
-            scanf("%*[^\n]");
+            b = scanf("%*[^\n]");
             int x = getchar();
             assert(x == '\n');
         }
@@ -83,19 +85,25 @@ Grafo ConstruccionDelGrafo() {
 
     Grafo G = initGrafo(n, m);
     AVLTree *T = NULL;
+    char string [1024];
+    int line = 0;
 
-
-    for(u32 line = 0; line < m; line++) {
+    while(fgets(string, sizeof(string), stdin) && line < m) {
         u32 v1 = 0;
         u32 v2 = 0;
-        x = scanf("e %u %u \n", &v1, &v2);
-        if (x != 2) { // Los datos no están en el formato correcto
-            DestruccionDelGrafo(G); G = NULL;
-            T = destruir_AVLTree(T);
-            return NULL;
+        if(!strncmp(string, "e", 1)) {
+            x = sscanf(string, "%*c %u %u", &v1, &v2);
+            if (x != 2) { // Los datos no están en el formato correcto
+                DestruccionDelGrafo(G); G = NULL;
+                T = destruir_AVLTree(T);
+                return NULL;
+            }
         }
+        line++;
         G = addArista(G, &T, v1, v2);
     }
+    //Verificar que se hayan leido m lineas
+    assert(line == m);
 
     u32 i = 0;
     G->vertices = calloc(n, sizeof(vertice));
