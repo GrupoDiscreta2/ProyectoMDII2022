@@ -9,14 +9,17 @@
 
 vertice initVertice(u32 nombre, Grafo G) {
     vertice v = malloc(sizeof(struct verticeSt));
-    v->nombre = nombre;
-    v->grado = 0;
-    v->posicion = 0;
-    v->vecinos = nuevo_arreglo_dinamico(2*(G->m)/ G->n);
+    if (v != NULL){
+        v->nombre = nombre;
+        v->grado = 0;
+        v->posicion = 0;
+        v->vecinos = nuevo_arreglo_dinamico(2*(G->m) / G->n);
+    }
     return v;
 }
 
 vertice addVecino(vertice v1, vertice v2) {
+    assert(v1 != NULL)
     v1->grado += 1;
     v1->vecinos = agregar_elemento(v1->vecinos,v2);
     return v1;
