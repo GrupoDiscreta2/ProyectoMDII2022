@@ -85,25 +85,18 @@ Grafo ConstruccionDelGrafo() {
 
     Grafo G = initGrafo(n, m);
     AVLTree *T = NULL;
-    char string [1024];
-    int line = 0;
 
-    while(fgets(string, sizeof(string), stdin) && line < m) {
+    for(u32 line = 0; line < m; line++) {
         u32 v1 = 0;
         u32 v2 = 0;
-        if(!strncmp(string, "e", 1)) {
-            x = sscanf(string, "%*c %u %u", &v1, &v2);
-            if (x != 2) { // Los datos no están en el formato correcto
-                DestruccionDelGrafo(G); G = NULL;
-                T = destruir_AVLTree(T);
-                return NULL;
-            }
+        x = scanf("e %u %u \n", &v1, &v2);
+        if (x != 2) { // Los datos no están en el formato correcto
+            DestruccionDelGrafo(G); G = NULL;
+            T = destruir_AVLTree(T);
+            return NULL;
         }
-        line++;
         G = addArista(G, &T, v1, v2);
     }
-    //Verificar que se hayan leido m lineas
-    assert(line == m);
 
     u32 i = 0;
     G->vertices = calloc(n, sizeof(vertice));
