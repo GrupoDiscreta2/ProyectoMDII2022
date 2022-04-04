@@ -117,6 +117,11 @@ Grafo ConstruccionDelGrafo() {
         return NULL;
     }
 
+    // Liberar memoria extra pedida por los arreglos de vecinos
+    for (u32 i = 0; i < n; i++) {
+        G->vertices[i]->vecinos = achicar_arreglo(G->vertices[i]->vecinos);
+    }
+
     return G;
 }
 

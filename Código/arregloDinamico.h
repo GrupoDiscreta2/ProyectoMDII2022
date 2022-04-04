@@ -33,6 +33,12 @@ arreglo agregar_elemento(arreglo a, void *nuevo);
 */
 void *indexar_arreglo(arreglo a, u32 i);
 
+/* Achica el arreglo para que solo estén alocados los elementos necesarios
+ * 
+ * PRE: a != NULL
+ */
+arreglo achicar_arreglo(arreglo a);
+
 /* 
  * Libera toda la memoria utilizada por el arreglo dinámico
 */

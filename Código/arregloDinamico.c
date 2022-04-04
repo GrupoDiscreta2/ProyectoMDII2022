@@ -40,6 +40,13 @@ void *indexar_arreglo(arreglo a, u32 i) {
     return a->elementos[i];
 }
 
+arreglo achicar_arreglo(arreglo a) {
+    assert(a != NULL);
+    a->elementos = realloc(a->elementos, sizeof(void *) * (a->tamanio_actual));
+    a->capacidad = a->tamanio_actual;
+    return a;
+}
+
 arreglo destuir_arreglo_dinamico(arreglo a) {
     assert(a != NULL);
     if (a->elementos != NULL) {
