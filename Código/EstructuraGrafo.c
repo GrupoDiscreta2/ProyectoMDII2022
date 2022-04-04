@@ -125,13 +125,21 @@ Grafo ConstruccionDelGrafo(void) {
     return G;
 }
 
-u32 NumeroDeVertices(Grafo G) { return G->n; }
+u32 NumeroDeVertices(Grafo G) {
+    return G->n;
+}
 
-u32 Delta(Grafo G) { return G->DELTA; }
+u32 Delta(Grafo G) {
+    return G->DELTA;
+}
 
-u32 Nombre(u32 i, Grafo G) { return G->vertices[i]->nombre; }
+u32 Nombre(u32 i, Grafo G) {
+    return G->vertices[i]->nombre;
+}
 
-u32 Grado(u32 i, Grafo G) { return G->vertices[i]->grado; }
+u32 Grado(u32 i, Grafo G) {
+    return G->vertices[i]->grado;
+}
 
 u32 IndiceONVecino(u32 j, u32 k, Grafo G) {
     u32 result;
