@@ -34,7 +34,7 @@ vertice destruirVertice(vertice v) {
     return NULL;
 }
 
-Grafo addArista(Grafo G, AVLTree **T, u32 nameV1, u32 nameV2) {
+static Grafo addArista(Grafo G, AVLTree **T, u32 nameV1, u32 nameV2) {
     vertice v1 = NULL;
     vertice v2 = NULL;
 
@@ -61,7 +61,7 @@ Grafo initGrafo(u32 n, u32 m) {
     return G;
 }
 
-Grafo ConstruccionDelGrafo() {
+Grafo ConstruccionDelGrafo(void) {
     int c = '\0'; // getchar devuelve int, por eso esto es un int
     do {
         c = getchar();

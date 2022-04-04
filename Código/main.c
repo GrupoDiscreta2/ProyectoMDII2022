@@ -7,7 +7,7 @@
 #include "EstructuraGrafo.h"
 #include "types.h"
 
-int main() {
+int main(void) {
     Grafo G = NULL;
 
     G = ConstruccionDelGrafo();

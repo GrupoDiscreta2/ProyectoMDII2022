@@ -20,7 +20,7 @@ typedef struct GrafoSt *Grafo;
 
 // Construcción/destrucción del grafo.
 
-Grafo ConstruccionDelGrafo();
+Grafo ConstruccionDelGrafo(void);
 
 void DestruccionDelGrafo(Grafo G);
 
