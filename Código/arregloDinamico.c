@@ -44,7 +44,7 @@ arreglo destuir_arreglo_dinamico(arreglo a) {
     assert(a != NULL);
     if (a->elementos != NULL) {
         free(a->elementos);
-        a = NULL;
+        a->elementos = NULL;
     }
     free(a);
     a = NULL;
