@@ -125,28 +125,6 @@ static AVLTree *rotarIzq_AVLTree(AVLTree *T) {
     return y;
 }
 
-// PRE: T != NULL && T->der != NULL && T->der->izq != NULL
-static AVLTree *rotarIzqDer_AVLTree(AVLTree *T) {
-    assert(T != NULL && T->der != NULL && T->der->izq != NULL);
-
-    T->der = rotarIzq_AVLTree(T->der);
-    T = rotarDer_AVLTree(T);
-
-    //assertinvRep_AVLTree(T);
-    return T;
-}
-
-// PRE: T != NULL && T->izq != NULL && T->izq->der != NULL
-static AVLTree *rotarDerIzq_AVLTree(AVLTree *T) {
-    assert(T != NULL && T->izq != NULL && T->izq->der != NULL);
-
-    T->izq = rotarDer_AVLTree(T->izq);
-    T = rotarIzq_AVLTree(T);
-
-    //assertinvRep_AVLTree(T);
-    return T;
-}
-
 int obtenerBalance(AVLTree *T) {
     if (T == NULL) {
         return 0;
