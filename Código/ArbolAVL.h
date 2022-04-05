@@ -6,8 +6,6 @@ TAD de árbol binario autobalanceado
 Explicación de wikipedia: https://es.wikipedia.org/wiki/%C3%81rbol_AVL
 */
 
-#include <stdbool.h>
-
 #include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 #include "EstructuraGrafo.h"
 #include "types.h"

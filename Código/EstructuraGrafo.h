@@ -1,8 +1,6 @@
 #ifndef __ESTRUCTURAGRAFO_H
 #define __ESTRUCTURAGRAFO_H
 
-#include <stdint.h>
-
 #include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 #include "arregloDinamico.h"
 #include "types.h"

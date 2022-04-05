@@ -1,10 +1,6 @@
 #ifndef __APIG_H
 #define __APIG_H
 
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "types.h"
 
 // Funciones referidas a la estructura del GRAFO solamente (vertices y lados, básicamente)
