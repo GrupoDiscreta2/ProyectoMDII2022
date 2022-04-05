@@ -143,7 +143,7 @@ u32 Grado(u32 i, Grafo G) {
 
 u32 IndiceONVecino(u32 j, u32 k, Grafo G) {
     u32 result;
-    if (k > NumeroDeVertices(G) || j > Grado(k, G)) {
+    if (k >= NumeroDeVertices(G) || j >= Grado(k, G)) {
         result = MAX_U32;
     } else {
         vertice elem = indexar_arreglo(G->vertices[k]->vecinos, j);
