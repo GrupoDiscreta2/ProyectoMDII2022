@@ -142,7 +142,11 @@ u32 Nombre(u32 i, Grafo G) {
 }
 
 u32 Grado(u32 i, Grafo G) {
-    return G->vertices[i]->grado;
+    u32 result = MAX_U32;
+    if (i < G->n) {
+        result = G->vertices[i]->grado;
+    }
+    return result;
 }
 
 u32 IndiceONVecino(u32 j, u32 k, Grafo G) {
