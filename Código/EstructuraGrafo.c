@@ -4,45 +4,47 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "AVLTree.h"
+#include "ArbolAVL.h"
 #include "AniquilamientoPositronicoIonizanteGravitatorio.h"
 #include "types.h"
 
-vertice initVertice(u32 nombre, Grafo G) {
-    vertice v = malloc(sizeof(struct verticeSt));
+Vertice InicializarVertice(u32 nombre, Grafo G) {
+    assert(G != NULL);
+
+    Vertice v = malloc(sizeof(struct VerticeSt));
     if (v != NULL) {
         v->nombre = nombre;
         v->grado = 0;
         v->posicion = 0;
-        v->vecinos = nuevo_arreglo_dinamico(2 * (G->m) / G->n);
+        v->vecinos = Nuevo_ArregloDin(2 * (G->m) / G->n);
     }
     return v;
 }
 
-vertice addVecino(vertice v1, vertice v2) {
+Vertice AgregarVecino(Vertice v1, Vertice v2) {
     assert(v1 != NULL);
     v1->grado += 1;
-    v1->vecinos = agregar_elemento(v1->vecinos, v2);
+    v1->vecinos = AgregarEelemento_ArregloDin(v1->vecinos, v2);
     return v1;
 }
 
-vertice destruirVertice(vertice v) {
+Vertice DestruirVertice(Vertice v) {
     assert(v != NULL);
-    destuir_arreglo_dinamico(v->vecinos);
+    Destruir_ArregloDin(v->vecinos);
     free(v);
     v = NULL;
     return NULL;
 }
 
-static Grafo addArista(Grafo G, AVLTree **T, u32 nameV1, u32 nameV2) {
-    vertice v1 = NULL;
-    vertice v2 = NULL;
+static Grafo addArista(Grafo G, ArbolAVL **T, u32 nameV1, u32 nameV2) {
+    Vertice v1 = NULL;
+    Vertice v2 = NULL;
 
-    *T = insertar_AVLTree(*T, nameV1, &v1, G);
-    *T = insertar_AVLTree(*T, nameV2, &v2, G);
+    *T = Insertar_ArbolAVL(*T, nameV1, &v1, G);
+    *T = Insertar_ArbolAVL(*T, nameV2, &v2, G);
 
-    v1 = addVecino(v1, v2);
-    v2 = addVecino(v2, v1);
+    v1 = AgregarVecino(v1, v2);
+    v2 = AgregarVecino(v2, v1);
     if (max(v1->grado, v2->grado) > G->DELTA) {
         G->DELTA = max(v1->grado, v2->grado);
     };
@@ -50,7 +52,7 @@ static Grafo addArista(Grafo G, AVLTree **T, u32 nameV1, u32 nameV2) {
     return G;
 }
 
-Grafo initGrafo(u32 n, u32 m) {
+Grafo InicializarGrafo(u32 n, u32 m) {
     Grafo G = malloc(sizeof(struct GrafoSt));
     if (G != NULL) {
         G->n = n;
@@ -84,8 +86,8 @@ Grafo ConstruccionDelGrafo(void) {
         return NULL;
     }
 
-    Grafo G = initGrafo(n, m);
-    AVLTree *T = NULL;
+    Grafo G = InicializarGrafo(n, m);
+    ArbolAVL *T = NULL;
 
     for (u32 line = 0; line < m; line++) {
         u32 v1 = 0;
@@ -94,32 +96,32 @@ Grafo ConstruccionDelGrafo(void) {
         if (x != 2) { // Los datos no están en el formato correcto
             DestruccionDelGrafo(G);
             G = NULL;
-            T = destruir_AVLTree(T);
+            T = Destruir_ArbolAVL(T);
             return NULL;
         }
         G = addArista(G, &T, v1, v2);
     }
 
     u32 i = 0;
-    G->vertices = calloc(n, sizeof(vertice));
+    G->vertices = calloc(n, sizeof(Vertice));
     if (G->vertices == NULL) {
         DestruccionDelGrafo(G);
         G = NULL;
-        T = destruir_AVLTree(T);
+        T = Destruir_ArbolAVL(T);
         return NULL;
     }
-    T = AVLTree_to_array(T, G->vertices, &i, n);
+    T = ArbolAVL_a_arreglo(T, G->vertices, &i, n);
     if (i != n) {
         // La cantidad de vertices no coincide con n
         DestruccionDelGrafo(G);
         G = NULL;
-        T = destruir_AVLTree(T);
+        T = Destruir_ArbolAVL(T);
         return NULL;
     }
 
     // Liberar memoria extra pedida por los arreglos de vecinos
     for (u32 i = 0; i < n; i++) {
-        G->vertices[i]->vecinos = achicar_arreglo(G->vertices[i]->vecinos);
+        G->vertices[i]->vecinos = Achicar_ArregloDin(G->vertices[i]->vecinos);
     }
 
     return G;
@@ -152,7 +154,7 @@ u32 Grado(u32 i, Grafo G) {
 u32 IndiceONVecino(u32 j, u32 k, Grafo G) {
     u32 result = MAX_U32;
     if (k < NumeroDeVertices(G) && j < Grado(k, G)) {
-        vertice elem = indexar_arreglo(G->vertices[k]->vecinos, j);
+        Vertice elem = Indexar_ArregloDin(G->vertices[k]->vecinos, j);
         result = elem->posicion;
     } 
     return result;
@@ -166,7 +168,7 @@ void DestruccionDelGrafo(Grafo G) {
             if (G->vertices[i] != NULL) {
                 // Algunos podrían ser NULL si el grafo no se construyó bien
                 // (Si no había n vertices)
-                G->vertices[i] = destruirVertice(G->vertices[i]);
+                G->vertices[i] = DestruirVertice(G->vertices[i]);
             }
         };
     }

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "AVLTree.h"
+#include "ArbolAVL.h"
 #include "EstructuraGrafo.h"
 #include "types.h"
 

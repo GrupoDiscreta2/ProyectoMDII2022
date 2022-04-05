@@ -7,32 +7,41 @@
 #include "arregloDinamico.h"
 #include "types.h"
 
-typedef struct verticeSt *vertice;
+typedef struct VerticeSt *Vertice;
 
-struct verticeSt {
+struct VerticeSt {
     u32 nombre;
     u32 grado;
     u32 posicion;
-    arreglo vecinos;
+    ArregloDin vecinos;
 };
 
 struct GrafoSt {
     u32 n;
     u32 m;
     u32 DELTA;
-    vertice *vertices;
+    Vertice *vertices;
 };
 
-Grafo initGrafo(u32 n, u32 m);
+Grafo InicializarGrafo(u32 n, u32 m);
 
-vertice initVertice(u32 nombre, Grafo G);
+/* Iniciliza un vértice
+ * Toma un Grafo para saber el n y el m por cuestiones de eficiencia
+ * 
+ * PRE: G != NULL
+ */
+Vertice InicializarVertice(u32 nombre, Grafo G);
 
 /* Destrulle un vertice liberando toda su memoria
  *
  * PRE: v != NULL
  */
-vertice destruirVertice(vertice v);
+Vertice DestruirVertice(Vertice v);
 
-vertice addVecino(vertice v1, vertice v2);
+/* Agrega un vecino al vertice v1
+ *
+ * PRE: v1 != NULL
+ */
+Vertice AgregarVecino(Vertice v1, Vertice v2);
 
 #endif

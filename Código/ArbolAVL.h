@@ -2,7 +2,7 @@
 #define __AVLTREE_H
 
 /*
-TAD de arbol binario autobalanceado
+TAD de árbol binario autobalanceado
 Explicación de wikipedia: https://es.wikipedia.org/wiki/%C3%81rbol_AVL
 */
 
@@ -12,19 +12,19 @@ Explicación de wikipedia: https://es.wikipedia.org/wiki/%C3%81rbol_AVL
 #include "EstructuraGrafo.h"
 #include "types.h"
 
-typedef struct AVLTreeSt AVLTree;
+typedef struct ArbolAVLSt ArbolAVL;
 
 /*
  * Crea un árbol AVL con un solo elemento
  * En caso de error de alocado de memoria devuelve NULL
  */
-AVLTree *nuevo_AVLTree(vertice v);
+ArbolAVL *Nuevo_ArbolAVL(Vertice v);
 
 /*
  * Destrulle un árbol AVL liberando toda su memoria y la memoria de los
  * elementos
  */
-AVLTree *destruir_AVLTree(AVLTree *T);
+ArbolAVL *Destruir_ArbolAVL(ArbolAVL *T);
 
 /*
  * Agrega un elemento a un árbol AVL
@@ -35,13 +35,13 @@ AVLTree *destruir_AVLTree(AVLTree *T);
  *
  * PRE: res != NULL
  */
-AVLTree *insertar_AVLTree(AVLTree *T, u32 nombre, vertice *res, Grafo G);
+ArbolAVL *Insertar_ArbolAVL(ArbolAVL *T, u32 nombre, Vertice *res, Grafo G);
 
 /*
  * Obtiene el balance de un árbol AVL
  * En caso de T = NULL devuelve 0.
-*/
-int obtenerBalance(AVLTree *T);
+ */
+int ObtenerBalance_ArbolAVL(ArbolAVL *T);
 
 /* 
  * Pone en orden los elementos (vértices) de un árbol en un array empezando desde la
@@ -53,8 +53,6 @@ int obtenerBalance(AVLTree *T);
  * 
  * PRE: ((T != NULL) <= (array != NULL)) && i != NULL
  */
-AVLTree *AVLTree_to_array(AVLTree *T, vertice *array, u32 *i, u32 n);
-
-void preOrder(AVLTree *T);
+ArbolAVL *ArbolAVL_a_arreglo(ArbolAVL *T, Vertice *array, u32 *i, u32 n);
 
 #endif
