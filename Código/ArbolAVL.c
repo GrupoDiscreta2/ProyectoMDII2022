@@ -1,6 +1,5 @@
 #include "ArbolAVL.h"
 
-#include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
@@ -16,47 +15,6 @@ struct ArbolAVLSt {
     struct ArbolAVLSt *der;
 };
 
-static bool ChecOrd_maxMin(ArbolAVL *T, u32 maximo, u32 minimo) {
-    return T == NULL || (T->nombre < maximo && T->nombre > minimo &&
-                         ChecOrd_maxMin(T->izq, T->nombre, minimo) &&
-                         ChecOrd_maxMin(T->der, maximo, T->nombre));
-}
-
-static bool ChecOrd_max(ArbolAVL *T, u32 maximo) {
-    return T == NULL || (T->nombre < maximo && ChecOrd_max(T->izq, T->nombre) &&
-                         ChecOrd_maxMin(T->der, maximo, T->nombre));
-}
-
-static bool ChecOrd_min(ArbolAVL *T, u32 minimo) {
-    return T == NULL || (T->nombre > minimo && ChecOrd_min(T->der, T->nombre) &&
-                         ChecOrd_maxMin(T->izq, T->nombre, minimo));
-}
-
-static bool ChecOrd(ArbolAVL *T) {
-    return T == NULL ||
-           (ChecOrd_max(T->izq, T->nombre) && ChecOrd_min(T->der, T->nombre));
-}
-
-static int assertCheckProf(ArbolAVL *T) { // Chequear profundidad
-    if (T == NULL) {
-        return 0;
-    }
-    int profIzq = assertCheckProf(T->izq);
-    int profDer = assertCheckProf(T->der);
-    int prof = max(profIzq, profDer) + 1;
-    int FE = profDer - profIzq;
-
-    assert(prof == T->altura);
-    assert(-2 < FE && FE < 2);
-
-    return prof;
-}
-
-static void assertinvRep_ArbolAVL(ArbolAVL *T) {
-    assert(ChecOrd(T));
-    assertCheckProf(T);
-}
-
 ArbolAVL *Nuevo_ArbolAVL(Vertice v) {
     ArbolAVL *T = (struct ArbolAVLSt *)malloc(sizeof(struct ArbolAVLSt));
     if (T != NULL) {
@@ -66,7 +24,6 @@ ArbolAVL *Nuevo_ArbolAVL(Vertice v) {
         T->der = NULL;
         T->altura = 1;
     };
-    assertinvRep_ArbolAVL(T);
     return T;
 }
 
@@ -92,7 +49,6 @@ static int Altura_ArbolAVL(ArbolAVL *T) {
 
 // PRE: T != NULL && T->izq != NULL
 static ArbolAVL *RotarDer_ArbolAVL(ArbolAVL *T) {
-    assert(T != NULL && T->izq != NULL);
 
     ArbolAVL *x = T->izq;
     ArbolAVL *T2 = x->der;
@@ -103,13 +59,11 @@ static ArbolAVL *RotarDer_ArbolAVL(ArbolAVL *T) {
     T->altura = max(Altura_ArbolAVL(T->izq), Altura_ArbolAVL(T->der)) + 1;
     x->altura = max(Altura_ArbolAVL(x->izq), Altura_ArbolAVL(x->der)) + 1;
 
-    //assertinvRep_ArbolAVL(T2);
     return x;
 }
 
 // PRE: T != NULL && T->der != NULL
 static ArbolAVL *RotarIzq_ArbolAVL(ArbolAVL *T) {
-    assert(T != NULL && T->der != NULL);
 
     ArbolAVL *y = T->der;
     ArbolAVL *T2 = y->izq;
@@ -120,7 +74,6 @@ static ArbolAVL *RotarIzq_ArbolAVL(ArbolAVL *T) {
     T->altura = max(Altura_ArbolAVL(T->izq), Altura_ArbolAVL(T->der)) + 1;
     y->altura = max(Altura_ArbolAVL(y->izq), Altura_ArbolAVL(y->der)) + 1;
 
-    //assertinvRep_ArbolAVL(T2);
     return y;
 }
 
@@ -132,8 +85,6 @@ int ObtenerBalance_ArbolAVL(ArbolAVL *T) {
 }
 
 ArbolAVL *Insertar_ArbolAVL(ArbolAVL *T, u32 nombre, Vertice *res, Grafo G) {
-    assert(res != NULL);
-
     if (T == NULL) {
         *res = InicializarVertice(nombre, G);
         T = Nuevo_ArbolAVL(*res);
@@ -173,8 +124,6 @@ ArbolAVL *Insertar_ArbolAVL(ArbolAVL *T, u32 nombre, Vertice *res, Grafo G) {
 }
 
 ArbolAVL *ArbolAVL_a_arreglo(ArbolAVL *T, Vertice *array, u32 *i, u32 n) {
-    assert(((T != NULL) <= (array != NULL)) && i != NULL);
-
     if (T != NULL) {
         ArbolAVL_a_arreglo(T->izq, array, i, n);
         if (*i < n) {

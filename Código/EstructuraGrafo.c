@@ -1,6 +1,5 @@
 #include "EstructuraGrafo.h"
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,8 +8,6 @@
 #include "types.h"
 
 Vertice InicializarVertice(u32 nombre, Grafo G) {
-    assert(G != NULL);
-
     Vertice v = malloc(sizeof(struct VerticeSt));
     if (v != NULL) {
         v->nombre = nombre;
@@ -22,14 +19,12 @@ Vertice InicializarVertice(u32 nombre, Grafo G) {
 }
 
 Vertice AgregarVecino(Vertice v1, Vertice v2) {
-    assert(v1 != NULL);
     v1->grado += 1;
     v1->vecinos = AgregarEelemento_ArregloDin(v1->vecinos, v2);
     return v1;
 }
 
 Vertice DestruirVertice(Vertice v) {
-    assert(v != NULL);
     Destruir_ArregloDin(v->vecinos);
     free(v);
     v = NULL;
@@ -68,10 +63,8 @@ Grafo ConstruccionDelGrafo(void) {
     do {
         c = getchar();
         if (c == 'c') { // La linea es un comentario y hay que saltearla
-            int b = scanf("%*[^\n]");
-            assert(b == 0);
-            int x = getchar();
-            assert(x == '\n');
+            scanf("%*[^\n]");
+            getchar(); // Quitar el '\n'
         } else if (c != 'p') { // Hay una linea con formato incorrecto
             return NULL;
         }
@@ -161,8 +154,6 @@ u32 IndiceONVecino(u32 j, u32 k, Grafo G) {
 }
 
 void DestruccionDelGrafo(Grafo G) {
-    assert(G != NULL);
-
     if (G->vertices != NULL) {
         for (u32 i = 0; i < G->n; i++) {
             if (G->vertices[i] != NULL) {
