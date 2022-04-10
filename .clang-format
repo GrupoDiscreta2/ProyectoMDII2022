@@ -3,3 +3,4 @@ BasedOnStyle: LLVM
 IndentWidth: 4
 ReflowComments: false
 AllowShortFunctionsOnASingleLine: false
+PointerAlignment: Left
