@@ -5,30 +5,37 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
+#include <time.h>
 
-u32* BFScoloreo(Grafo G);
+bool EsColoreoPropio(Grafo G, u32* coloreo);
 
-int main() {
-    Grafo G = NULL;
-    u32* coloreo = NULL;
-
-    G = ConstruccionDelGrafo();
+int main(void) {
+    Grafo G = ConstruccionDelGrafo();
     assert(G != NULL);
     u32 n = NumeroDeVertices(G);
 
-
-    coloreo = Bipartito(G);
-
-    if (coloreo == NULL) {
-        printf("No es bipartito\n");
-    } else {
-        free(coloreo);
-        printf("Es bipartito\n");
+    u32* coloreo = calloc(n, sizeof(u32));
+    u32* orden = calloc(n, sizeof(u32));
+    for (u32 i = 0; i < n; i++) {
+        orden[i] = i;
     }
 
-/*     for (u32 i = 0; i < n; i++) {
-        printf("%u: %u\n", Nombre(i, G), coloreo[i]);
-    } */
+    // medir el tiempo
+    clock_t tiempo_inicial = clock();
+
+    u32 x = Greedy(G, orden, coloreo);
+
+    clock_t tiempo_final = clock();
+
+    printf("Tiempo de ejecución: %f segundos\n", (double)(tiempo_final - tiempo_inicial) / CLOCKS_PER_SEC);
+    printf("%d\n", x);
+
+    bool e = EsColoreoPropio(G, coloreo);
+    printf("%d\n", e);
+
+    free(coloreo);
+    free(orden);
 
     DestruccionDelGrafo(G);
 
