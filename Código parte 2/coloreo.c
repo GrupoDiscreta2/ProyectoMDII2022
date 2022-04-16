@@ -176,6 +176,7 @@ char OrdenFromKey(u32 n, u32* key, u32* Orden) {
 
 /* Devuelve un número aletario entre 0 y n-1 usando rand() */
 static u32 randMenorQue(u32 n) {
+    // Idea de https://stackoverflow.com/questions/1202687/how-do-i-get-a-specific-range-of-numbers-from-rand
     return (u32)(rand() / (RAND_MAX / n + 1));
 }
 
@@ -185,7 +186,6 @@ static u32 randMenorQue(u32 n) {
  */
 void AleatorizarKeys(u32 n, u32 R, u32* key) {
     assert(key != NULL);
-    // Idea de https://stackoverflow.com/questions/1202687/how-do-i-get-a-specific-range-of-numbers-from-rand
     
     // Setear semilla
     srand(R);
@@ -250,3 +250,97 @@ u32* PermutarColores(u32 n, u32* Coloreo, u32 R) {
 
     return nuevoC;
 }
+
+
+struct elemIndice {
+    u32 indice;
+    u32 valor;
+};
+
+// Funcion de comparación de qsort para indicesOrdenadosMayorMenor
+static int cmp(const struct elemIndice* a, const struct elemIndice* b) {
+    return a->valor < b->valor;
+}
+
+/* Devuelve los indices de el argumento array de mayor a menor tal que:
+ * array[res[0]] >= array[res[1]] >= ... >= array[res[n-1]]
+ *
+ * Utiliza qsort
+ * 
+ * PRE: array != NULL
+ */
+static u32* indicesOrdenadosMayorMenor(u32 n, const u32* array) {
+    assert(array != NULL);
+
+    struct elemIndice* elems = calloc(n, sizeof(struct elemIndice));
+    
+    for (u32 i = 0; i < n; i++) {
+        elems[i].indice = i;
+        elems[i].valor = array[i];
+    }
+
+    qsort(elems, n, sizeof(struct elemIndice), (int(*)(const void *, const void *))cmp);
+
+    u32* indices = calloc(n, sizeof(u32));
+    for (u32 i = 0; i < n; i++) {
+        indices[i] = elems[i].indice;
+    }
+    free(elems);
+
+    return indices;
+}
+
+u32* RecoloreoCardinalidadDecrecienteBC(u32 n, u32* Coloreo) {
+    assert(Coloreo != NULL);
+
+    // Averiguar cantidad de colores
+    u32 r = 0;
+    for (u32 i = 0; i < n; i++) {
+        r = max(r, Coloreo[i]);
+    }
+    r++;
+
+    // Arreglo para llevar la cuenta de cuantas veces aparece cada color
+    u32* count = calloc(r, sizeof(u32)); // calloc inicializa la memoria a 0
+    for (u32 i = 0; i < n; i++) {
+        count[Coloreo[i]]++;
+    }
+
+    // Arreglo que contiene los colores ordenados de mayor a menor en función de cuantas
+    // veces aparece cada uno
+    u32* coloresOrd = calloc(r, sizeof(u32));
+    coloresOrd = indicesOrdenadosMayorMenor(r, count);
+
+    // Arreglo que contiene la posición de los colores en coloresOrd
+    // Cada indice representa un color, ejemplo: 
+    // posiciones[0] -> 2  => El color 0 se encuentra en coloresOrd[2]
+    u32* posiciones = calloc(r, sizeof(u32));
+    for (u32 i = 0; i < r; i++) {
+        posiciones[coloresOrd[i]] = i;
+    }
+
+    u32* nuevoColoreo = calloc(n, sizeof(u32));
+    for (u32 i = 0; i < n; i++) {
+        nuevoColoreo[i] = posiciones[Coloreo[i]];
+    }
+
+    free(count);
+    free(coloresOrd);
+
+    return nuevoColoreo;
+} 
+
+// Coloreo = [0, 1, 2, 2, 0, 3, 4, 3, 2, 4, 2, 3, 3, 4, 3]
+// aux = [2, 1, 4, 5, 3] // count
+// indices = [3, 2, 4, 0, 1] // coloresOrd
+// posiciones = [3, 4, 1, 0, 2]
+
+// posiciones[indices[i]] = i
+
+// mapeo 0 -> 3, 4 -> 2, 1 -> 4, 3 -> 0, 2 -> 1
+// mapeo indices[i] -> i
+// 
+
+// nuevoColoreo = [3, 4, 1, 1, 3, 0, 2, 0, 1, 2, 1, 0, 0, 2, 0]
+//                 
+// nuevoColoreo[i] = posiciones[Coloreo[i]]

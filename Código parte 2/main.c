@@ -12,8 +12,6 @@ bool EsColoreoPropio(Grafo G, u32* coloreo);
 
 int main(int argc, char** argv) {
 
-    u32 x = (u32)atoi(argv[1]);
-
     Grafo G = NULL;
 
     G = ConstruccionDelGrafo();
@@ -30,17 +28,17 @@ int main(int argc, char** argv) {
 
     Greedy(G, orden, coloreo);
 
-    u32* res = PermutarColores(n, coloreo, x);
+    u32* res = RecoloreoCardinalidadDecrecienteBC(n, coloreo);
     
     // Imprimir coloreo
     printf("Coloreo: ");
-    for (u32 i = (n-10); i < n; i++) {
+    for (u32 i = 0; i < 20; i++) {
         printf("%d ", coloreo[i]);
     }
 
     // Imprimir res
     printf("res:");
-    for (u32 i = (n-10); i < n; i++) {
+    for (u32 i = 0; i < 20; i++) {
         printf("%d ", res[i]);
     }
 
@@ -49,6 +47,18 @@ int main(int argc, char** argv) {
     free(coloreo);
     free(orden);
     free(res);
+
+/*     u32 coloreo[] = {0, 1, 2, 2, 0, 3, 4, 3, 2, 4, 2, 3, 3, 4, 3};
+
+    u32* nuevoColoreo = RecoloreoCardinalidadDecrecienteBC(15, coloreo);
+
+    for (u32 i = 0; i < 15; i++) {
+        printf("%u, ", nuevoColoreo[i]);
+    }
+
+    free(nuevoColoreo); */
+
+
 
     return(0);
 }
