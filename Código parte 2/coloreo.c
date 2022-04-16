@@ -140,3 +140,36 @@ u32 Greedy(Grafo G, u32* Orden, u32* Coloreo) {
 
     return color;
 }
+
+/* Pone en Orden los índices que ordenan a key de mayor a menor
+ *
+ * PRE: key != NULL && Orden != NULL && ⟨∀i ∈ {0,…,n-1} : key[i] < n⟩
+ */
+char OrdenFromKey(u32 n,u32* key,u32* Orden) {
+    assert(key != NULL && Orden != NULL);
+
+    u32* count = calloc(n, sizeof(u32)); // calloc inicializa la memoria a 0
+
+    // Contar cuántas veces aparece cada elemento
+    for (u32 i = 0; i < n; i++) {
+        count[key[i]]++;
+    }
+
+    // Contar cuantos elementos menores o iguales a cada elemento hay
+    for (u32 i = 1; i < n; i++) {
+        count[i] += count[i-1];
+    }
+
+    for (u32 i = 0; i < n; i++) {
+        // Poner i en uno de los lugares posibles
+        Orden[n - count[key[i]]] = i;
+        // Restar uno al contador de elementos menores o iguales a key[i], para
+        // que cuando haya otro igual a key[i] se ponga en el siguiente lugar
+        count[key[i]]--;
+    }
+
+    free(count);
+    count = NULL;
+
+    return '\0'; // ?????
+}
