@@ -26,28 +26,26 @@ int main(int argc, char** argv) {
         orden[i] = i;
     };
 
-    Greedy(G, orden, coloreo);
+    u32 colores = Greedy(G, orden, coloreo);
 
-    u32* res = RecoloreoCardinalidadDecrecienteBC(n, coloreo);
-    
-    // Imprimir coloreo
-    printf("Coloreo: ");
-    for (u32 i = 0; i < 20; i++) {
-        printf("%d ", coloreo[i]);
-    }
+    printf("Colores 1er greedy: %u\n", colores);
 
-    // Imprimir res
-    printf("res:");
-    for (u32 i = 0; i < 20; i++) {
-        printf("%d ", res[i]);
-    }
+    OrdenFromKey(n, coloreo, orden);
 
-    assert(EsColoreoPropio(G, res));
+    colores = Greedy(G, orden, coloreo);
+
+    printf("Colores 2do greedy: %u\n", colores);
+
+    OrdenFromKey(n, coloreo, orden);
+
+    colores = Greedy(G, orden, coloreo);
+
+    printf("Colores 3er greedy: %u\n", colores);
+
+    assert(EsColoreoPropio(G, coloreo));
     DestruccionDelGrafo(G);
     free(coloreo);
     free(orden);
-    free(res);
-
 /*     u32 coloreo[] = {0, 1, 2, 2, 0, 3, 4, 3, 2, 4, 2, 3, 3, 4, 3};
 
     u32* nuevoColoreo = RecoloreoCardinalidadDecrecienteBC(15, coloreo);
