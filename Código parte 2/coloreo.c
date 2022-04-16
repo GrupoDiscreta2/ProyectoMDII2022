@@ -58,7 +58,7 @@ static u32* BFScoloreo(Grafo G) {
                         a la cola los que no habían sido coloreados
                      */
                     u32 v = IndiceONVecino(k, cola[i], G);
-                        // vecino siendo procesado (v es el índice en el orden natural)
+                    // vecino siendo procesado (v es el índice en el orden natural)
                     if (coloreo[v] == 0) {
                         cola[j] = v;
                         j++;
@@ -157,7 +157,7 @@ char OrdenFromKey(u32 n, u32* key, u32* Orden) {
 
     // Contar cuantos elementos menores o iguales a cada elemento hay
     for (u32 i = 1; i < n; i++) {
-        count[i] += count[i-1];
+        count[i] += count[i - 1];
     }
 
     for (u32 i = 0; i < n; i++) {
@@ -186,12 +186,12 @@ static u32 randMenorQue(u32 n) {
  */
 void AleatorizarKeys(u32 n, u32 R, u32* key) {
     assert(key != NULL);
-    
+
     // Setear semilla
     srand(R);
 
     // Generar números pseudo-aleatorios
-    for(u32 i = 0; i < n; i++) {
+    for (u32 i = 0; i < n; i++) {
         key[i] = randMenorQue(n);
     }
 }
@@ -208,7 +208,7 @@ static void swap(u32* a, u32* b) {
  */
 u32* PermutarColores(u32 n, u32* Coloreo, u32 R) {
     assert(Coloreo != NULL);
-    
+
     // Averiguar cantidad de colores
     u32 r = 0;
     for (u32 i = 0; i < n; i++) {
@@ -222,15 +222,15 @@ u32* PermutarColores(u32 n, u32* Coloreo, u32 R) {
         return NULL;
     }
 
-    for(u32 i = 0; i < r; i++){
+    for (u32 i = 0; i < r; i++) {
         permC[i] = i;
     }
-    
+
     srand(R);
 
     // Permutar los colores
-    for(u32 i = 0; i < r; i++){
-        u32 j = randMenorQue(i+1);
+    for (u32 i = 0; i < r; i++) {
+        u32 j = randMenorQue(i + 1);
         swap(&permC[i], &permC[j]);
     }
 
@@ -241,7 +241,7 @@ u32* PermutarColores(u32 n, u32* Coloreo, u32 R) {
     }
 
     // Llenar el arreglo de colores permutados
-    for(u32 i = 0; i < n; i++){
+    for (u32 i = 0; i < n; i++) {
         nuevoC[i] = permC[Coloreo[i]];
     }
 
@@ -250,7 +250,6 @@ u32* PermutarColores(u32 n, u32* Coloreo, u32 R) {
 
     return nuevoC;
 }
-
 
 struct elemIndice {
     u32 indice;
@@ -273,13 +272,13 @@ static u32* indicesOrdenadosMayorMenor(u32 n, const u32* array) {
     assert(array != NULL);
 
     struct elemIndice* elems = calloc(n, sizeof(struct elemIndice));
-    
+
     for (u32 i = 0; i < n; i++) {
         elems[i].indice = i;
         elems[i].valor = array[i];
     }
 
-    qsort(elems, n, sizeof(struct elemIndice), (int(*)(const void *, const void *))cmp);
+    qsort(elems, n, sizeof(struct elemIndice), (int (*)(const void*, const void*))cmp);
 
     u32* indices = calloc(n, sizeof(u32));
     for (u32 i = 0; i < n; i++) {
@@ -312,7 +311,7 @@ u32* RecoloreoCardinalidadDecrecienteBC(u32 n, u32* Coloreo) {
     coloresOrd = indicesOrdenadosMayorMenor(r, count);
 
     // Arreglo que contiene la posición de los colores en coloresOrd
-    // Cada indice representa un color, ejemplo: 
+    // Cada indice representa un color, ejemplo:
     // posiciones[0] -> 2  => El color 0 se encuentra en coloresOrd[2]
     u32* posiciones = calloc(r, sizeof(u32));
     for (u32 i = 0; i < r; i++) {
@@ -328,7 +327,7 @@ u32* RecoloreoCardinalidadDecrecienteBC(u32 n, u32* Coloreo) {
     free(coloresOrd);
 
     return nuevoColoreo;
-} 
+}
 
 // Coloreo = [0, 1, 2, 2, 0, 3, 4, 3, 2, 4, 2, 3, 3, 4, 3]
 // aux = [2, 1, 4, 5, 3] // count
@@ -339,8 +338,8 @@ u32* RecoloreoCardinalidadDecrecienteBC(u32 n, u32* Coloreo) {
 
 // mapeo 0 -> 3, 4 -> 2, 1 -> 4, 3 -> 0, 2 -> 1
 // mapeo indices[i] -> i
-// 
+//
 
 // nuevoColoreo = [3, 4, 1, 1, 3, 0, 2, 0, 1, 2, 1, 0, 0, 2, 0]
-//                 
+//
 // nuevoColoreo[i] = posiciones[Coloreo[i]]
