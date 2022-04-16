@@ -145,7 +145,7 @@ u32 Greedy(Grafo G, u32* Orden, u32* Coloreo) {
  *
  * PRE: key != NULL && Orden != NULL && ⟨∀i ∈ {0,…,n-1} : key[i] < n⟩
  */
-char OrdenFromKey(u32 n,u32* key,u32* Orden) {
+char OrdenFromKey(u32 n, u32* key, u32* Orden) {
     assert(key != NULL && Orden != NULL);
 
     u32* count = calloc(n, sizeof(u32)); // calloc inicializa la memoria a 0
@@ -172,4 +172,81 @@ char OrdenFromKey(u32 n,u32* key,u32* Orden) {
     count = NULL;
 
     return '\0'; // ?????
+}
+
+/* Devuelve un número aletario entre 0 y n-1 usando rand() */
+static u32 randMenorQue(u32 n) {
+    return (u32)(rand() / (RAND_MAX / n + 1));
+}
+
+/* Pone en key n números pseudo-aleatorios entre 0 y n-1 usando a R como semilla
+ * 
+ * PRE: key != NULL
+ */
+void AleatorizarKeys(u32 n, u32 R, u32* key) {
+    assert(key != NULL);
+    // Idea de https://stackoverflow.com/questions/1202687/how-do-i-get-a-specific-range-of-numbers-from-rand
+    
+    // Setear semilla
+    srand(R);
+
+    // Generar números pseudo-aleatorios
+    for(u32 i = 0; i < n; i++) {
+        key[i] = randMenorQue(n);
+    }
+}
+
+static void swap(u32* a, u32* b) {
+    u32 tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+/* Asumiendo que Coloreo es un coloreo, permuta los colores
+ * 
+ * PRE: Coloreo != NULL && Coloreo es un coloreo
+ */
+u32* PermutarColores(u32 n, u32* Coloreo, u32 R) {
+    assert(Coloreo != NULL);
+    
+    // Averiguar cantidad de colores
+    u32 r = 0;
+    for (u32 i = 0; i < n; i++) {
+        r = max(r, Coloreo[i]);
+    }
+    r++;
+
+    // Crear un arreglo para permutar los colores
+    u32* permC = calloc(sizeof(u32), r);
+    if (permC == NULL) {
+        return NULL;
+    }
+
+    for(u32 i = 0; i < r; i++){
+        permC[i] = i;
+    }
+    
+    srand(R);
+
+    // Permutar los colores
+    for(u32 i = 0; i < r; i++){
+        u32 j = randMenorQue(i+1);
+        swap(&permC[i], &permC[j]);
+    }
+
+    // Crear el arreglo de colores permutados
+    u32* nuevoC = calloc(sizeof(u32), n);
+    if (nuevoC == NULL) {
+        return NULL;
+    }
+
+    // Llenar el arreglo de colores permutados
+    for(u32 i = 0; i < n; i++){
+        nuevoC[i] = permC[Coloreo[i]];
+    }
+
+    free(permC);
+    permC = NULL;
+
+    return nuevoC;
 }
