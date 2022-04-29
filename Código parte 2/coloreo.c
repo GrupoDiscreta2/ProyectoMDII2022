@@ -202,6 +202,18 @@ static void swap(u32* a, u32* b) {
     *b = tmp;
 }
 
+/* Devuelve el valor del elemento maximo de array
+ * Mira los números de 0 a n-1
+ * En caso de que n sea 0 devuelve 0 (neutro de max para u32)
+ */
+static u32 maximum(u32 n, const u32* array) {
+    u32 m = 0;
+    for (u32 i = 0; i < n; i++) {
+        m = max(m, array[i]);
+    }
+    return m;
+}
+
 /* Asumiendo que Coloreo es un coloreo, permuta los colores
  * 
  * PRE: Coloreo != NULL && Coloreo es un coloreo
@@ -210,11 +222,7 @@ u32* PermutarColores(u32 n, u32* Coloreo, u32 R) {
     assert(Coloreo != NULL);
 
     // Averiguar cantidad de colores
-    u32 r = 0;
-    for (u32 i = 0; i < n; i++) {
-        r = max(r, Coloreo[i]);
-    }
-    r++;
+    u32 r = maximum(n, Coloreo) + 1;
 
     // Crear un arreglo para permutar los colores
     u32* permC = calloc(sizeof(u32), r);
@@ -293,11 +301,7 @@ u32* RecoloreoCardinalidadDecrecienteBC(u32 n, u32* Coloreo) {
     assert(Coloreo != NULL);
 
     // Averiguar cantidad de colores
-    u32 r = 0;
-    for (u32 i = 0; i < n; i++) {
-        r = max(r, Coloreo[i]);
-    }
-    r++;
+    u32 r = maximum(n, Coloreo) + 1;
 
     // Arreglo para llevar la cuenta de cuantas veces aparece cada color
     u32* count = calloc(r, sizeof(u32)); // calloc inicializa la memoria a 0
