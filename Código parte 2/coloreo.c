@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 /* Chequea si el coloreo es propio */
-bool EsColoreoPropio(Grafo G, u32* coloreo) {
+static bool EsColoreoPropio(Grafo G, u32* coloreo) {
     bool coloreoPropio = true;
     u32 n = NumeroDeVertices(G);
 
