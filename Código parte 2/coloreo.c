@@ -110,14 +110,11 @@ u32 Greedy(Grafo G, u32* Orden, u32* Coloreo) {
 
     // Arreglo de bits, cada bit i representa si el color i-ésimo está usado
     // por los vecinos del vertice actual
-//    u8* coloresUsadosPorVecinos = calloc((Delta(G) + 1) / 8 + 1, sizeof(u8));
+    u8* coloresUsadosPorVecinos = calloc((Delta(G) + 1) / 8 + 1, sizeof(u8));
 
     for (u32 i = 0; i < n; i++) {
         u32 v = Orden[i];
         u32 d = Grado(v, G);
-
-        u32 indicesUsables = min(color + 1, d);
-        u8* coloresUsadosPorVecinos = calloc((indicesUsables + 1) / 8 + 1, sizeof(u8));
 
         // Recorrer los vecinos del vértice actual, poniendo en 1 los bits de colores ya usados
         for (u32 j = 0; j < d; j++) {
@@ -142,24 +139,11 @@ u32 Greedy(Grafo G, u32* Orden, u32* Coloreo) {
         Coloreo[v] = color_v;
         color = max(color, color_v + 1);
 
-        free(coloresUsadosPorVecinos);
-        // u32 indicesUsados = min(color, d);
-        /* for (u32 j = 0; j < indicesUsados; j++) {
-            coloresUsadosPorVecinos[j] = 0;
-        } */
-//        memset(coloresUsadosPorVecinos, 0, indicesUsados / 8 + 1);
-
-        // Verificar que haya todo 0s en coloresUsadosPorVecinos
-/*         for (u32 j = 0; j < ((Delta(G) + 1) / 8 + 1); j++) {
-            if (coloresUsadosPorVecinos[j] != 0) {
-                printf("Error: coloresUsadosPorVecinos[%u] = 0x%x\n", j, coloresUsadosPorVecinos[j]);
-                printf("       indicesUsados = %u\n", indicesUsados);
-                assert(false);
-            }
-        } */
+        u32 indicesUsados = min(color, d);
+        memset(coloresUsadosPorVecinos, 0, indicesUsados / 8 + 1);
     }
 
-    //free(coloresUsadosPorVecinos);
+    free(coloresUsadosPorVecinos);
 
     return color;
 }
