@@ -5,6 +5,7 @@
 
 #include "AlduinPaarthurnaxIrileth.h"
 #include "AniquilamientoPositronicoIonizanteGravitatorio.h"
+#include "arregloBits.h"
 #include "types.h"
 
 /* Chequea si el coloreo es propio */
@@ -107,37 +108,58 @@ u32 Greedy(Grafo G, u32* Orden, u32* Coloreo) {
 
     u32 color = 0;
 
+    // Arreglo de bits, cada bit i representa si el color i-ésimo está usado
+    // por los vecinos del vertice actual
+//    u8* coloresUsadosPorVecinos = calloc((Delta(G) + 1) / 8 + 1, sizeof(u8));
+
     for (u32 i = 0; i < n; i++) {
         u32 v = Orden[i];
         u32 d = Grado(v, G);
 
-        // Arreglo de bits, cada bit i representa si el color i-ésimo está usado
-        uint8_t* coloresUsadosPorVecinos = calloc((color + 1) / 8 + 1, 1);
+        u32 indicesUsables = min(color + 1, d);
+        u8* coloresUsadosPorVecinos = calloc((indicesUsables + 1) / 8 + 1, sizeof(u8));
 
         // Recorrer los vecinos del vértice actual, poniendo en 1 los bits de colores ya usados
         for (u32 j = 0; j < d; j++) {
             u32 w = IndiceONVecino(j, v, G);
             u32 color_w = Coloreo[w];
-            if (color_w != MAX_U32) { // w ya está coloreado
-                u32 indiceColoresUsados = color_w / 8;
-                uint8_t bit = 0b10000000 >> (color_w % 8);
-                coloresUsadosPorVecinos[indiceColoresUsados] |= bit;
+
+            if (color_w != MAX_U32 && color_w <= d) {
+                // color_w != MAX_U32 ⇒ w ya está coloreado
+                
+                // color_w > d + 1 ⇒ si o si va a haber un color libre menor que color_w
+                // Por eso en ese caso no se pone en 1 el bit color_w
+                
+                ponerEn1(coloresUsadosPorVecinos, color_w);
             }
         }
 
         // Buscar el primer color libre
-        u32 color_v = 0;
-        while ((coloresUsadosPorVecinos[color_v / 8] & (0b10000000 >> (color_v % 8))) != 0) {
-            color_v++;
-        }
+        u32 color_v = primer0(coloresUsadosPorVecinos);
 
         assert(color_v <= color + 1);
 
-        free(coloresUsadosPorVecinos);
-
         Coloreo[v] = color_v;
         color = max(color, color_v + 1);
+
+        free(coloresUsadosPorVecinos);
+        // u32 indicesUsados = min(color, d);
+        /* for (u32 j = 0; j < indicesUsados; j++) {
+            coloresUsadosPorVecinos[j] = 0;
+        } */
+//        memset(coloresUsadosPorVecinos, 0, indicesUsados / 8 + 1);
+
+        // Verificar que haya todo 0s en coloresUsadosPorVecinos
+/*         for (u32 j = 0; j < ((Delta(G) + 1) / 8 + 1); j++) {
+            if (coloresUsadosPorVecinos[j] != 0) {
+                printf("Error: coloresUsadosPorVecinos[%u] = 0x%x\n", j, coloresUsadosPorVecinos[j]);
+                printf("       indicesUsados = %u\n", indicesUsados);
+                assert(false);
+            }
+        } */
     }
+
+    //free(coloresUsadosPorVecinos);
 
     return color;
 }

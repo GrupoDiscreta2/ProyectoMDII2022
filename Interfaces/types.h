@@ -7,6 +7,7 @@
 
 #include <stdint.h>
 
+typedef uint8_t u8;
 typedef uint32_t u32;
 
 #define max(a, b) ((a) > (b) ? (a) : (b))
