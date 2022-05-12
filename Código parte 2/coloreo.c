@@ -1,4 +1,3 @@
-#include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -50,9 +49,8 @@ static u32* BFScoloreo(Grafo G) {
             j++;
             coloreo[c] = 1;
 
-            while (i < j) { // Colorear componente conexa empezando en c
-                assert(j <= n);
-                assert(i < n);
+            while (i < j) {
+                // Colorear componente conexa empezando en c
                 u32 grado = Grado(cola[i], G);
 
                 for (u32 k = 0; k < grado; k++) {
@@ -76,7 +74,6 @@ static u32* BFScoloreo(Grafo G) {
             c++;
         }
     }
-    assert(i == n && j == n);
 
     free(cola);
     cola = NULL;
@@ -123,18 +120,16 @@ u32 Greedy(Grafo G, u32* Orden, u32* Coloreo) {
 
             if (color_w != MAX_U32 && color_w <= d) {
                 // color_w != MAX_U32 ⇒ w ya está coloreado
-                
+
                 // color_w > d + 1 ⇒ si o si va a haber un color libre menor que color_w
                 // Por eso en ese caso no se pone en 1 el bit color_w
-                
+
                 ponerEn1(coloresUsadosPorVecinos, color_w);
             }
         }
 
         // Buscar el primer color libre
         u32 color_v = primer0(coloresUsadosPorVecinos);
-
-        assert(color_v <= color + 1);
 
         Coloreo[v] = color_v;
         color = max(color, color_v + 1);
@@ -155,7 +150,6 @@ u32 Greedy(Grafo G, u32* Orden, u32* Coloreo) {
  * PRE: key != NULL && Orden != NULL && ⟨∀i ∈ {0,…,n-1} : key[i] < n⟩
  */
 char OrdenFromKey(u32 n, u32* key, u32* Orden) {
-    assert(key != NULL && Orden != NULL);
 
     u32* count = calloc(n, sizeof(u32)); // calloc inicializa la memoria a 0
     if (count == NULL) {
@@ -197,8 +191,6 @@ static u32 randMenorQue(u32 n) {
  * PRE: key != NULL
  */
 void AleatorizarKeys(u32 n, u32 R, u32* key) {
-    assert(key != NULL);
-
     // Setear semilla
     srand(R);
 
@@ -231,7 +223,6 @@ static u32 maximum(u32 n, const u32* array) {
  * PRE: Coloreo != NULL && Coloreo es un coloreo
  */
 u32* PermutarColores(u32 n, u32* Coloreo, u32 R) {
-    assert(Coloreo != NULL);
 
     // Averiguar cantidad de colores
     u32 r = maximum(n, Coloreo) + 1;
@@ -289,7 +280,6 @@ static int cmp(const struct elemIndice* a, const struct elemIndice* b) {
  * PRE: array != NULL
  */
 static u32* indicesOrdenadosMayorMenor(u32 n, const u32* array) {
-    assert(array != NULL);
 
     struct elemIndice* elems = calloc(n, sizeof(struct elemIndice));
 
@@ -310,7 +300,6 @@ static u32* indicesOrdenadosMayorMenor(u32 n, const u32* array) {
 }
 
 u32* RecoloreoCardinalidadDecrecienteBC(u32 n, u32* Coloreo) {
-    assert(Coloreo != NULL);
 
     // Averiguar cantidad de colores
     u32 r = maximum(n, Coloreo) + 1;
